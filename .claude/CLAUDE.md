@@ -204,6 +204,10 @@ the Timetable placeholder and scroll-reveal flow are ours. Tokens live in
   blocks in the Classes grid; hairline dividers between sections.
 - **Brand mark**: a simple line-drawn lotus/plant silhouette (from her
   canvas), decorative (`aria-hidden`), used in the header and sticky bar.
+  The same mark is the favicon (`assets/favicon.svg`, 2026-11-04): cream
+  lotus strokes on a rounded vermilion square, legible down to tab-icon
+  size. One self-hosted SVG file, no build step or PNG fallbacks needed —
+  linked via `<link rel="icon" type="image/svg+xml">`.
 - **Header**: tall vermilion header (brand mark, brand name, tagline) with
   the pill nav row beneath. A slim fixed `.sticky-bar` (name + "Get in
   touch"-equivalent CTA) slides in once the pill nav scrolls out of view

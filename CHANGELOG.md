@@ -10,6 +10,7 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Added
 
+- Favicon: the brand's lotus mark as a self-hosted SVG.
 - Aoife's photo in the hero circle, replacing the placeholder.
 - Project scaffold: tooling (lint + Playwright tests), CI and release
   workflows, CLAUDE.md, README and this changelog.

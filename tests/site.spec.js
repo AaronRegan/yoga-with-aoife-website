@@ -36,6 +36,18 @@ test('loads without console errors and shows the hero', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test('favicon is set and self-hosted', async ({ page, request }) => {
+  await page.goto('/');
+
+  const icon = page.locator('link[rel="icon"]');
+  const href = await icon.getAttribute('href');
+  expect(href).toBe('assets/favicon.svg');
+
+  const response = await request.get(`/${href}`);
+  expect(response.ok()).toBe(true);
+  expect(response.headers()['content-type']).toContain('image/svg+xml');
+});
+
 test('every planned section is present', async ({ page }) => {
   await page.goto('/');
 
