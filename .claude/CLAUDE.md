@@ -259,10 +259,20 @@ Each merge into `dev` should be one coherent unit with a PR description
 that states the goal.
 
 **Feature flow**: branch off `dev` (`feature/*`, `content/*`, `chore/*`) →
-PR into `dev` → Claude merges once CI is green. Each feature adds a line
+**show the change in the browser panel and wait for the user's OK** → PR
+into `dev` → Claude merges once CI is green. Each feature adds a line
 under `## [Unreleased]` in CHANGELOG.md. **Don't open a `dev` → `main` PR
 after each feature** — features batch up on `dev` until the user asks for
 a release.
+
+**Show before merging** (Aaron, 2026-11-04): never merge into `dev` until
+the user has seen the change. Serve the branch with the `static-site`
+preview in the browser panel, scroll to the changed spot (check phone
+width too when layout changes), say what changed, and wait for an
+explicit OK. Docs-only changes: show the changed text instead. Keep the
+working tree on the branch being reviewed while waiting, because the
+panel serves whatever is checked out. In Aoife mode, her "send it" is
+that OK.
 
 **Release flow** (only when the user asks to cut/ship a release):
 1. On a `release/vX.Y.Z` branch off `dev`, turn `## [Unreleased]` into

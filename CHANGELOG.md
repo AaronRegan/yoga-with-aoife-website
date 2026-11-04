@@ -31,3 +31,8 @@ it automatically (see `.github/workflows/release.yml`).
   indexed or learned before launch.
 - Tests for section structure, in-page links, mobile overflow, reduced
   motion, and self-hosted fonts.
+
+### Changed
+
+- Documented showing each change in the preview panel before merging
+  into `dev` (no change to the site itself).
