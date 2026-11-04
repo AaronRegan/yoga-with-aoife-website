@@ -128,12 +128,14 @@ still applies):
   stillness, some dynamic and strength-building, others slow and calming;
   she teaches in English but also speaks French and can support students
   in French.
-- Hero photo: Aoife in a seated twist, outdoors on a mountain path (from
-  her canvas). **Not yet in this repo** — the canvas stores it as an asset
-  uploaded by a collaborator (not the canvas's owner account), which this
-  tooling can't read programmatically. Aaron needs to download it from the
-  canvas and hand it over directly; until then the hero uses a generic
-  `.img-slot` placeholder. Check EXIF/GPS before committing any photo.
+- Hero photo (2026-11-04): `assets/images/aoife-hero.jpg`, Aoife in a
+  seated twist on a mountain path (from her canvas). Aaron downloaded it
+  from the canvas directly, since the canvas stores it as an asset
+  uploaded by a collaborator and this tooling can't read it
+  programmatically. Resized to 900×1200 (~70 KB), no EXIF/GPS present.
+  Shown in the hero circle via `.img-slot--photo` (`object-position: 50%
+  85%`, matching the canvas's own framing), alt "Aoife sitting in a seated
+  twist on a mountain path".
 - Footer cross-link slot: "Also by Aoife: [Practice Name] · Paediatric
   Dietitian →" — kept as a placeholder link (no real URL yet, no domains
   bought). Fill in once both sites' domains exist (see the two-domains
@@ -210,8 +212,8 @@ the Timetable placeholder and scroll-reveal flow are ours. Tokens live in
 - **Images**: real photos live in `assets/images/` and sit in their slot
   with `.img-slot--photo` (a ring of the slot colour, image cropped with
   `object-fit: cover`). Check new photos for EXIF/GPS before committing.
-  The Classes grid tiles and the About portrait are still `.img-slot`
-  placeholders.
+  The hero photo is real (see Content policy above); the Classes grid
+  tiles are still `.img-slot` placeholders.
 - **Grids**: the 3-item Classes grid uses explicit breakpoints (not
   `auto-fit`) so an item is never orphaned on its own row.
 - For new visual directions beyond this system, ask first.
@@ -412,7 +414,3 @@ merge to `main` must ship a new version.
 3. **Vercel**: import the repo (Framework "Other", no build command,
    production branch `main`), then enable Web Analytics and Speed
    Insights.
-4. **Hero photo** — download Aoife's seated-twist photo from her design
-   canvas (this tooling can't read it programmatically — see Content
-   policy above) and hand it over so it can replace the hero's
-   `.img-slot` placeholder.

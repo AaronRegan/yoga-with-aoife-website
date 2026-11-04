@@ -10,6 +10,7 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Added
 
+- Aoife's photo in the hero circle, replacing the placeholder.
 - Project scaffold: tooling (lint + Playwright tests), CI and release
   workflows, CLAUDE.md, README and this changelog.
 - Placeholder page built from Aoife's design canvas: hero, pull-quote

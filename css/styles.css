@@ -304,6 +304,16 @@ a:hover { color: var(--vermilion-hover); }
 
 .img-slot--class { aspect-ratio: 4 / 5; }
 
+.img-slot--photo { padding: clamp(10px, 4%, 16px); }
+
+.img-slot--photo img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  object-position: 50% 85%;
+}
+
 /* Sections */
 .section {
   padding: var(--space-xl) 0;

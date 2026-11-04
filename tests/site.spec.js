@@ -44,6 +44,16 @@ test('every planned section is present', async ({ page }) => {
   }
 });
 
+test('hero photo loads and has alt text', async ({ page }) => {
+  await page.goto('/');
+
+  const photo = page.locator('#hero .img-slot--photo img');
+  await expect(photo).toHaveAttribute('alt', /\S/);
+  await expect
+    .poll(() => photo.evaluate((img) => img.complete && img.naturalWidth))
+    .toBeGreaterThan(0);
+});
+
 test('classes grid: three class types, each with a title and description', async ({ page }) => {
   await page.goto('/');
 
