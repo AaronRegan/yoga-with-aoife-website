@@ -277,9 +277,18 @@ overall run status.
 ## Deployment
 
 Static site — deploys to Vercel with zero config (no build command, output
-directory is the repo root). No custom domain yet — Aaron will import the
-repo into its own Vercel project (see the reminder below) and use Vercel's
-default subdomain until a domain is bought.
+directory is the repo root). Vercel's GitHub app auto-imported the repo
+(2026-11-04) the moment `main` was pushed — project `yoga-with-aoife-website`
+under team `aaronregan`, framework auto-detected as none, production
+branch `main`. No custom domain yet — Vercel's default subdomain is used
+until one is bought.
+
+**Watch for duplicate projects**: the same auto-import created a second,
+auto-suffixed project (`yoga-with-aoife-website-6ii7`) off the same repo
+when `dev` was pushed shortly after. Vercel project deletion needs
+dashboard confirmation (no non-interactive API path), so if you ever see
+more than one Vercel project tracking this repo, that's why — check
+before assuming a second one means something changed.
 
 Vercel only handles *deployment* (auto-build/publish on push to `main`) —
 it doesn't run lint or tests as a gate. That's what the GitHub Actions
@@ -294,8 +303,13 @@ plain-HTML/no-framework integration (a fixed same-origin route Vercel
 serves once the feature is enabled in the project dashboard), keeping the
 zero-build-step setup intact. Both routes only resolve on Vercel's own
 infra, so `tests/site.spec.js` stubs them to avoid 404 noise elsewhere.
-Enabling them in the Vercel dashboard is Aaron's job (see the reminder
-below).
+
+Enabling them is Aaron's job: both `vercel project web-analytics` and
+`vercel project speed-insights` require interactive CLI confirmation with
+no skip flag, and there's no non-interactive MCP/API path either — enabling
+Speed Insights specifically also upgrades the project to Speed Insights
+Plus (a paid tier change), so this stays a dashboard action, not something
+done on Aaron's behalf.
 
 ## Languages (French planned, built later)
 
@@ -411,6 +425,8 @@ merge to `main` must ship a new version.
    until launch.
 2. **Branch protection** on `main` once it exists remotely (PR required,
    no admin bypass).
-3. **Vercel**: import the repo (Framework "Other", no build command,
-   production branch `main`), then enable Web Analytics and Speed
-   Insights.
+3. **Vercel**: repo is already imported (auto-connected by Vercel's GitHub
+   app). Delete the duplicate project `yoga-with-aoife-website-6ii7`
+   (dashboard confirmation required — link given when this was found,
+   2026-11-04), then enable Web Analytics and Speed Insights on
+   `yoga-with-aoife-website` (also dashboard-only, see Deployment above).
