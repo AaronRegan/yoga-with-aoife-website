@@ -1,0 +1,22 @@
+# Pre-launch: the site is placeholder content, so AI crawlers are blocked
+# and the page carries a noindex meta tag. Search engines stay allowed here
+# so they can fetch the page and see that noindex.
+# At the v1.0.0 launch, remove the AI block and add a Sitemap: line.
+
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+User-agent: Bytespider
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: *
+Allow: /

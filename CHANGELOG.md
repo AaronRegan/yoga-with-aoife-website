@@ -1,0 +1,27 @@
+# Changelog
+
+All notable changes to this site are logged here. Format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) — newest entry on
+top. Features merged into `dev` are listed under `[Unreleased]`; a release
+turns that into a version heading, and merging the release to `main` tags
+it automatically (see `.github/workflows/release.yml`).
+
+## [Unreleased]
+
+### Added
+
+- Project scaffold: tooling (lint + Playwright tests), CI and release
+  workflows, CLAUDE.md, README and this changelog.
+- Placeholder page built from Aoife's design canvas: hero, pull-quote
+  band, Classes (Group/Private/Online), a placeholder Timetable section,
+  About, and a Join-a-class contact section.
+- Design foundation: light slate blue and poppy vermilion palette,
+  self-hosted Montserrat + Cormorant Garamond italic typography.
+- Self-hosted fonts (no Google Fonts CDN, for GDPR).
+- Sticky header with skip link, visible focus rings, and reduced-motion
+  support.
+- Pre-launch block on search engines and AI crawlers (`noindex` meta tag
+  and a `robots.txt` blocking AI bots) so placeholder content isn't
+  indexed or learned before launch.
+- Tests for section structure, in-page links, mobile overflow, reduced
+  motion, and self-hosted fonts.

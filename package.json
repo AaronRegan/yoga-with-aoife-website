@@ -1,0 +1,14 @@
+{
+  "name": "yoga-with-aoife-website",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Yoga with Aoife's site. Static HTML/CSS/JS — this package.json exists only for CI tooling (lint + tests), not for building or serving the site.",
+  "scripts": {
+    "lint": "html-validate index.html",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "html-validate": "^8.24.0"
+  }
+}

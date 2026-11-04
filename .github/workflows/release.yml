@@ -1,0 +1,48 @@
+name: Release
+
+# Every merge to main is a production deploy. The newest "## [x.y.z]" heading
+# in CHANGELOG.md is the version being shipped; tag it and publish a GitHub
+# Release with that section as the notes, unless it's already released.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read newest version from CHANGELOG.md
+        id: version
+        run: |
+          version=$(awk '/^## \[[0-9]+\.[0-9]+\.[0-9]+\]/ { match($0, /[0-9]+\.[0-9]+\.[0-9]+/); print substr($0, RSTART, RLENGTH); exit }' CHANGELOG.md)
+          if [ -z "$version" ]; then
+            echo "::error::No '## [x.y.z]' version heading found in CHANGELOG.md"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Tag and publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "::warning::v$VERSION is already released. This merge to main didn't add a new version to CHANGELOG.md."
+            exit 0
+          fi
+          awk -v v="$VERSION" '
+            $0 ~ "^## \\[" v "\\]" { found = 1; next }
+            found && (/^## / || /^<!--/) { exit }
+            found { print }
+          ' CHANGELOG.md > notes.md
+          gh release create "v$VERSION" --target "$GITHUB_SHA" --title "v$VERSION" --notes-file notes.md
