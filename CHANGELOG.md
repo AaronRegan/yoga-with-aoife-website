@@ -10,6 +10,10 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Added
 
+- Classes grid icons: a seated-figure illustration for each class type —
+  Group Classes (instructor + 2 students on mats), Private Sessions
+  (1-on-1), Online Classes (solo, on a phone) — replacing the generic
+  "Photo" placeholders.
 - Favicon: the brand's lotus mark as a self-hosted SVG.
 - Aoife's photo in the hero circle, replacing the placeholder.
 - Project scaffold: tooling (lint + Playwright tests), CI and release

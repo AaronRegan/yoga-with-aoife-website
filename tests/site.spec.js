@@ -72,6 +72,7 @@ test('classes grid: three class types, each with a title and description', async
   const items = page.locator('#classes .class-item');
   await expect(items).toHaveCount(3);
   for (const item of await items.all()) {
+    await expect(item.locator('.class-icon svg[aria-hidden="true"]')).toHaveCount(1);
     await expect(item.locator('h3')).not.toBeEmpty();
     await expect(item.locator('p')).not.toBeEmpty();
   }

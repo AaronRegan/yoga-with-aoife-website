@@ -25,6 +25,8 @@
   --cream-text: #FFF6F2;
   --text: #2E3A55;
   --line: #C3CDDD;
+  --slate-pale: #EEF2FA;
+  --mat: #9CA4B5;
 
   --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-accent: "Cormorant Garamond", Georgia, "Times New Roman", serif;
@@ -302,8 +304,6 @@ a:hover { color: var(--vermilion-hover); }
   flex: 0 1 380px;
 }
 
-.img-slot--class { aspect-ratio: 4 / 5; }
-
 .img-slot--photo { padding: clamp(10px, 4%, 16px); }
 
 .img-slot--photo img {
@@ -415,6 +415,41 @@ a:hover { color: var(--vermilion-hover); }
 .class-item h3 {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
+}
+
+.class-icon {
+  aspect-ratio: 4 / 5;
+  background: var(--slate-pale);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.class-icon svg {
+  width: 78%;
+  height: 78%;
+  overflow: visible;
+}
+
+.figure {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.figure--instructor { stroke: var(--vermilion-deep); }
+.figure--student { stroke: var(--slate-mid); }
+
+.mat { fill: var(--mat); }
+
+.device {
+  fill: var(--slate-pale);
+  stroke: var(--slate-mid);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* Timetable */

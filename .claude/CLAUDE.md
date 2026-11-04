@@ -216,8 +216,24 @@ the Timetable placeholder and scroll-reveal flow are ours. Tokens live in
 - **Images**: real photos live in `assets/images/` and sit in their slot
   with `.img-slot--photo` (a ring of the slot colour, image cropped with
   `object-fit: cover`). Check new photos for EXIF/GPS before committing.
-  The hero photo is real (see Content policy above); the Classes grid
-  tiles are still `.img-slot` placeholders.
+  The hero photo is real (see Content policy above).
+- **Classes grid icons** (2026-11-04, `.class-icon` tiles, `--slate-pale`
+  background): a reusable seated/meditating figure (circle head +
+  rounded-path body), coloured by role — `.figure--instructor`
+  (`--vermilion-deep`) vs `.figure--student` (`--slate-mid`) — under a
+  `.mat` (`--mat` grey, a real rounded-rect mat shape, not a shadow).
+  **The mat/figure relationship is formulaic, not eyeballed per icon** —
+  for a figure at `translate(tx,ty) scale(s)`: mat width `22*s`, height
+  `6.5*s`, `x = tx - width/2`, `y = ty + 2.6*s`. Reuse this when adding
+  any new figure (e.g. a fourth class type) rather than guessing
+  coordinates — it's what keeps "sits on the mat" visually identical
+  across tiles. Group Classes: instructor positioned higher/further back
+  and only slightly larger than the two students (not a big size gap —
+  Aaron's explicit correction, 2026-11-04) to read as "leading the class"
+  without dominating it. Online Classes: the same figure on a phone
+  outline (`.device`, `--slate-pale` fill so it matches the tile), its
+  mat and figure clipped to the screen's rounded-rect via a `clipPath` so
+  they can bleed to the edge without square corners poking out.
 - **Grids**: the 3-item Classes grid uses explicit breakpoints (not
   `auto-fit`) so an item is never orphaned on its own row.
 - For new visual directions beyond this system, ask first.
