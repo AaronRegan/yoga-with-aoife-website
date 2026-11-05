@@ -141,12 +141,33 @@ still applies):
   bought). Fill in once both sites' domains exist (see the two-domains
   plan at the top of this file).
 
+**Class booking — Cal.com Events** (2026-11-05, Aaron's choice): the
+Timetable section (ours — her canvas linked to `#timetable` but had no such
+section) has a "See upcoming classes" button for her Cal.com events page,
+`https://cal.com/aoifeoneill/events?theme=light`.
+- **Why Events, not a seated event type:** her classes are ad hoc, with no
+  weekly rhythm. Each class is a one-off Cal.com Event with its own date,
+  capacity ("spots remaining" → "Sold out" / waitlist) and optional
+  approval. Guests register without a Cal.com account. If she settles into
+  a fixed weekly class, a seated event type would be less work for her;
+  the site change would just be that one link.
+- **The site never lists individual classes.** It only points at the
+  `/events` directory, so publishing a new Event in Cal.com shows up with
+  no site change. Don't switch to per-Event embeds. Events with "Private
+  event" switched on don't appear in the directory.
+- **Click-to-load, for GDPR:** nothing is requested from Cal.com until the
+  visitor clicks. `main.js` then swaps the button for an iframe of the
+  same URL plus an "open in a new tab" link. Without JS, the button is a
+  plain link that opens the page in a new tab. A test enforces "no Cal.com
+  request before the click" — keep it. It's a plain iframe, not Cal.com's
+  `embed.js` (no third-party script on our page). Cal.com sends no
+  frame-blocking headers (checked 2026-11-05); if it ever starts, the
+  new-tab link still works.
+- `?theme=light` keeps Cal.com's page light, matching the site; it
+  otherwise follows the visitor's OS dark mode. Her brand colour and other
+  styling inside the iframe are Cal.com settings (Appearance), not ours.
+
 **Still placeholder / not yet designed**:
-- A **Timetable** section — the canvas's nav and "View timetable" button
-  both link to `#timetable`, but no such section exists in her board. This
-  repo adds a placeholder Timetable section (heading + "Times to follow"
-  copy) so those links resolve; replace with real class times once Aoife
-  supplies them.
 - Venue name/address, pricing, email, phone — all still bracketed
   placeholders.
 - "Geneva" (from the tagline) is treated as confirmed, since it's her own

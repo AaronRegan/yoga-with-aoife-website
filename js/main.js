@@ -11,6 +11,39 @@ new IntersectionObserver(([entry]) => {
   stickyBar.classList.toggle('is-shown', scrolledPast);
 }).observe(document.querySelector('.site-nav'));
 
+// Booking calendar loads only on click, so no visitor data reaches Cal.com until they ask for it.
+const bookingLoad = document.querySelector('[data-booking-load]');
+if (bookingLoad) {
+  bookingLoad.addEventListener('click', (event) => {
+    event.preventDefault();
+    const booking = bookingLoad.closest('[data-booking]');
+
+    const frameWrap = document.createElement('div');
+    frameWrap.className = 'booking-frame-wrap';
+
+    // Shows through the transparent iframe until Cal.com's page paints over it.
+    const loading = document.createElement('p');
+    loading.className = 'booking-loading';
+    loading.textContent = 'Loading upcoming classes…';
+
+    const frame = document.createElement('iframe');
+    frame.src = bookingLoad.href;
+    frame.title = 'Upcoming yoga classes and booking';
+    frame.className = 'booking-frame';
+    frameWrap.append(loading, frame);
+
+    const newTab = document.createElement('a');
+    newTab.href = bookingLoad.href;
+    newTab.target = '_blank';
+    newTab.rel = 'noopener';
+    newTab.className = 'text-link booking-newtab';
+    newTab.textContent = 'Open the booking calendar in a new tab';
+
+    booking.replaceChildren(frameWrap, newTab);
+    booking.classList.add('is-loaded');
+  });
+}
+
 const revealTargets = document.querySelectorAll('[data-reveal]');
 
 // Stagger via data attribute — html-validate forbids inline style attributes.

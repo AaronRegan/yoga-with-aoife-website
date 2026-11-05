@@ -18,7 +18,16 @@ test.beforeEach(async ({ page }) => {
   await page.route('**/_vercel/speed-insights/script.js', (route) =>
     route.fulfill({ status: 200, contentType: 'application/javascript', body: '' })
   );
+  // Keep tests off the real Cal.com booking calendar.
+  await page.route('https://cal.com/**', (route) =>
+    route.fulfill({ status: 200, contentType: 'text/html', body: '<!DOCTYPE html><title>Cal.com stub</title>' })
+  );
 });
+
+const isCalCom = (url) => {
+  const host = new URL(url).hostname;
+  return host === 'cal.com' || host.endsWith('.cal.com');
+};
 
 test('loads without console errors and shows the hero', async ({ page }) => {
   const errors = [];
@@ -121,6 +130,26 @@ test('no horizontal overflow on a small phone', async ({ page }) => {
 });
 
 // Pre-launch only: delete or invert this test as part of the v1.0.0 launch.
+// GDPR: nothing may reach Cal.com until the visitor clicks to load the calendar.
+test('booking calendar loads from Cal.com only after a click', async ({ page }) => {
+  const calRequests = [];
+  page.on('request', (req) => {
+    if (isCalCom(req.url())) calRequests.push(req.url());
+  });
+
+  await page.goto('/');
+  const load = page.locator('[data-booking-load]');
+  await expect(load).toHaveAttribute('href', /^https:\/\/cal\.com\/aoifeoneill\/events/);
+  await page.locator('#timetable').scrollIntoViewIfNeeded();
+  expect(calRequests).toEqual([]);
+
+  await load.click();
+  const frame = page.locator('#timetable iframe.booking-frame');
+  await expect(frame).toHaveAttribute('src', /^https:\/\/cal\.com\/aoifeoneill\/events/);
+  await expect(frame).toHaveAttribute('title', /\S/);
+  await expect.poll(() => calRequests.length).toBeGreaterThan(0);
+});
+
 test('pre-launch: page is noindex and AI crawlers are blocked', async ({ page, request }) => {
   await page.goto('/');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);

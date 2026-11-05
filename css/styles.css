@@ -463,6 +463,51 @@ a:hover { color: var(--vermilion-hover); }
   gap: 1rem;
 }
 
+.booking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.booking-note {
+  font-size: var(--step--1);
+  opacity: 0.8;
+}
+
+/* Wider than the text column so Cal.com's calendar sidebar has room; never wider than the viewport. */
+.booking.is-loaded {
+  width: min(1000px, calc(100vw - 2 * var(--gutter)));
+}
+
+.booking-frame-wrap {
+  position: relative;
+  width: 100%;
+  height: clamp(560px, 80vh, 860px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--slate-pale);
+  display: grid;
+  place-items: center;
+}
+
+.booking-loading {
+  font-size: var(--step--1);
+  opacity: 0.8;
+}
+
+.booking-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.booking-newtab { font-size: var(--step--1); }
+
 /* About */
 .about-copy {
   max-width: 760px;
