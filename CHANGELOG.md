@@ -10,6 +10,10 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Added
 
+- Class booking: the Timetable section's "See upcoming classes" button
+  loads Aoife's Cal.com events page in place (only once clicked, so
+  nothing is sent to Cal.com before then). New classes she adds in
+  Cal.com appear automatically.
 - Classes grid icons: a seated-figure illustration for each class type —
   Group Classes (instructor + 2 students on mats), Private Sessions
   (1-on-1), Online Classes (solo, on a phone) — replacing the generic
