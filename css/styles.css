@@ -311,7 +311,7 @@ a:hover { color: var(--vermilion-hover); }
   height: 100%;
   border-radius: inherit;
   object-fit: cover;
-  object-position: 50% 85%;
+  object-position: 50% 58%;
 }
 
 /* Sections */

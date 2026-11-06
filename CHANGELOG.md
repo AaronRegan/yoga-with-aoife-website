@@ -38,5 +38,7 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Changed
 
+- Hero photo: Aoife sitting cross-legged on a yoga mat, replacing the
+  mountain-path seated twist.
 - Documented showing each change in the preview panel before merging
   into `dev` (no change to the site itself).
