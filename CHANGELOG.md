@@ -38,9 +38,9 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Changed
 
-- "Ways to practise" icons redrawn as thin, flowing line drawings of a
-  seated figure (oval head, arms resting on the knees, crossed legs as an
-  infinity loop), with each mat drawn as a single line.
+- "Ways to practise" icons redrawn as thin line drawings of a seated,
+  cross-legged figure, with short sun rays around the teacher's head and
+  each mat drawn as a single line.
 - Hero photo: Aoife sitting cross-legged on a yoga mat, replacing the
   mountain-path seated twist.
 - Documented showing each change in the preview panel before merging
