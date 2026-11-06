@@ -38,6 +38,8 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Changed
 
+- "Ways to practise" icons: the grey yoga mats under the figures are
+  gone.
 - "Ways to practise" icons redrawn as thin line drawings of a seated,
   cross-legged figure, with short sun rays around the teacher's head and
   each mat drawn as a single line.
