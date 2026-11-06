@@ -26,7 +26,6 @@
   --text: #2E3A55;
   --line: #C3CDDD;
   --slate-pale: #EEF2FA;
-  --mat: #9CA4B5;
 
   --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-accent: "Cormorant Garamond", Georgia, "Times New Roman", serif;
@@ -452,13 +451,6 @@ a:hover { color: var(--vermilion-hover); }
 
 .figure--instructor { stroke: var(--vermilion-deep); }
 .figure--student { stroke: var(--slate-mid); }
-
-.mat {
-  fill: none;
-  stroke: var(--mat);
-  stroke-width: 0.8;
-  stroke-linecap: round;
-}
 
 .device {
   fill: var(--slate-pale);

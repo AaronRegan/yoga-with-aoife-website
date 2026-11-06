@@ -268,17 +268,12 @@ the Timetable placeholder and scroll-reveal flow are ours. Tokens live in
     `.figure--student` (`--slate-mid`). Stroke `0.75` in figure units;
     because it scales with the figure, the half-size phone figure uses
     `.figure--small` (`1.5`) so all lines look the same weight.
-  - **Mats are a single grey line** (`.mat`, `--mat`, stroke `0.8`),
-    placed by formula, not by eye. For a figure at
-    `translate(tx,ty) scale(s)`, the mat runs from `x = tx - 14*s` to
-    `tx + 14*s` at `y = ty + 5.2*s`. That puts it just under the legs and a
-    little past the knees. Reuse this for any new figure (e.g. a fourth
-    class type).
+  - **No mats** (removed 2026-11-06, Aaron's request). Earlier versions
+    had a grey mat under each figure; don't add them back without asking.
   - Group Classes: the teacher sits higher (further back) and only slightly
     larger than the two students (Aaron, 2026-11-04: no big size gap).
-    Mats must never touch each other or a figure. Online Classes: the
-    figure on a phone outline (`.device`, stroke `0.9`), clipped to the
-    screen via `clipPath`.
+    Online Classes: the figure on a phone outline (`.device`, stroke
+    `0.9`), sized to sit fully inside the screen.
 - **Grids**: the 3-item Classes grid uses explicit breakpoints (not
   `auto-fit`) so an item is never orphaned on its own row.
 - For new visual directions beyond this system, ask first.
