@@ -246,23 +246,39 @@ the Timetable placeholder and scroll-reveal flow are ours. Tokens live in
   with `.img-slot--photo` (a ring of the slot colour, image cropped with
   `object-fit: cover`). Check new photos for EXIF/GPS before committing.
   The hero photo is real (see Content policy above).
-- **Classes grid icons** (2026-11-04, `.class-icon` tiles, `--slate-pale`
-  background): a reusable seated/meditating figure (circle head +
-  rounded-path body), coloured by role — `.figure--instructor`
-  (`--vermilion-deep`) vs `.figure--student` (`--slate-mid`) — under a
-  `.mat` (`--mat` grey, a real rounded-rect mat shape, not a shadow).
-  **The mat/figure relationship is formulaic, not eyeballed per icon** —
-  for a figure at `translate(tx,ty) scale(s)`: mat width `22*s`, height
-  `6.5*s`, `x = tx - width/2`, `y = ty + 2.6*s`. Reuse this when adding
-  any new figure (e.g. a fourth class type) rather than guessing
-  coordinates — it's what keeps "sits on the mat" visually identical
-  across tiles. Group Classes: instructor positioned higher/further back
-  and only slightly larger than the two students (not a big size gap —
-  Aaron's explicit correction, 2026-11-04) to read as "leading the class"
-  without dominating it. Online Classes: the same figure on a phone
-  outline (`.device`, `--slate-pale` fill so it matches the tile), its
-  mat and figure clipped to the screen's rounded-rect via a `clipPath` so
-  they can bleed to the edge without square corners poking out.
+- **Classes grid icons** (final redraw 2026-11-06, `.class-icon` tiles,
+  `--slate-pale` background): one shared seated-figure drawing,
+  `#seated-figure`, plus `#sun-rays`, both in a hidden `.svg-defs` block
+  above the grid and placed with `<use>`. The style is a thin, even line in
+  the manner of a typical line-icon set. The figure has a round head;
+  narrow rounded shoulders; upper arms dropping almost straight down, then
+  bending at the elbow so the forearms angle out and the hands end just
+  above the knees; two inner lines that run down the torso and continue
+  round each knee as the legs, meeting in a shallow V at the bottom; and
+  two small curves on top for the feet. Short sun rays around the head
+  mark the teacher (Group and Private only; not on the small phone figure).
+  - **Origin:** Aaron picked it after several rounds, from the cross-legged
+    "meditation" icon in a stock "Wellness 30 line icons" set (iStock,
+    2026-11-06). **It's our own drawing in that style, not a copy or trace —
+    the stock icons are licensed; keep it that way.** Rejected along the
+    way: the chunky rounded figure (2026-11-04), thin stick figures, an
+    arms-overhead pose, and a flowing calligraphic figure with
+    infinity-loop legs.
+  - Coloured by role: `.figure--instructor` (`--vermilion-deep`) vs
+    `.figure--student` (`--slate-mid`). Stroke `0.75` in figure units;
+    because it scales with the figure, the half-size phone figure uses
+    `.figure--small` (`1.5`) so all lines look the same weight.
+  - **Mats are a single grey line** (`.mat`, `--mat`, stroke `0.8`),
+    placed by formula, not by eye. For a figure at
+    `translate(tx,ty) scale(s)`, the mat runs from `x = tx - 14*s` to
+    `tx + 14*s` at `y = ty + 5.2*s`. That puts it just under the legs and a
+    little past the knees. Reuse this for any new figure (e.g. a fourth
+    class type).
+  - Group Classes: the teacher sits higher (further back) and only slightly
+    larger than the two students (Aaron, 2026-11-04: no big size gap).
+    Mats must never touch each other or a figure. Online Classes: the
+    figure on a phone outline (`.device`, stroke `0.9`), clipped to the
+    screen via `clipPath`.
 - **Grids**: the 3-item Classes grid uses explicit breakpoints (not
   `auto-fit`) so an item is never orphaned on its own row.
 - For new visual directions beyond this system, ask first.

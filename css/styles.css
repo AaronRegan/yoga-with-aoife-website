@@ -432,22 +432,38 @@ a:hover { color: var(--vermilion-hover); }
   overflow: visible;
 }
 
+/* Holds the shared <use> figure definition; takes no space. */
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 .figure {
   fill: none;
-  stroke-width: 3;
+  stroke-width: 0.75;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
+/* Stroke scales with the figure, so the half-size phone figure doubles it to match the others. */
+.figure--small { stroke-width: 1.5; }
+
 .figure--instructor { stroke: var(--vermilion-deep); }
 .figure--student { stroke: var(--slate-mid); }
 
-.mat { fill: var(--mat); }
+.mat {
+  fill: none;
+  stroke: var(--mat);
+  stroke-width: 0.8;
+  stroke-linecap: round;
+}
 
 .device {
   fill: var(--slate-pale);
   stroke: var(--slate-mid);
-  stroke-width: 2.6;
+  stroke-width: 0.9;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
