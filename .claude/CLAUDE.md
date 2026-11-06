@@ -128,14 +128,22 @@ still applies):
   stillness, some dynamic and strength-building, others slow and calming;
   she teaches in English but also speaks French and can support students
   in French.
-- Hero photo (2026-11-04): `assets/images/aoife-hero.jpg`, Aoife in a
-  seated twist on a mountain path (from her canvas). Aaron downloaded it
-  from the canvas directly, since the canvas stores it as an asset
-  uploaded by a collaborator and this tooling can't read it
-  programmatically. Resized to 900×1200 (~70 KB), no EXIF/GPS present.
-  Shown in the hero circle via `.img-slot--photo` (`object-position: 50%
-  85%`, matching the canvas's own framing), alt "Aoife sitting in a seated
-  twist on a mountain path".
+- Hero photo (2026-11-06, Aaron supplied; replaces the 2026-11-04 seated
+  twist on a mountain path from her canvas): `assets/images/aoife-hero.jpg`,
+  Aoife smiling, sitting cross-legged on a blue yoga mat against a white
+  wall. Resized to 900×1306 (~43 KB), converted from Display P3 to sRGB,
+  and the whole EXIF block stripped. The original had no GPS, but did
+  carry a capture date/time, which we don't publish. Shown in the hero
+  circle via `.img-slot--photo` with `object-position: 50% 58%`, which
+  fits head (with headroom) to mat inside the circle. Alt "Aoife smiling,
+  sitting cross-legged on a yoga mat".
+- **Photo prep recipe** (no Pillow/ImageMagick on this machine):
+  `sips -m "/System/Library/ColorSync/Profiles/sRGB Profile.icc"
+  --resampleWidth 900 -s format png`, then `sips -s format jpeg -s
+  formatOptions low`. `sips` re-adds a small EXIF block, including the
+  original capture date, so drop the `Exif` APP1 segment afterwards
+  (a short byte-level Python script) and check with `file` that "Exif"
+  no longer appears.
 - Footer cross-link slot: "Also by Aoife: [Practice Name] · Paediatric
   Dietitian →" — kept as a placeholder link (no real URL yet, no domains
   bought). Fill in once both sites' domains exist (see the two-domains
