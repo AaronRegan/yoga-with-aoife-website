@@ -175,9 +175,34 @@ section) has a "See upcoming classes" button for her Cal.com events page,
   otherwise follows the visitor's OS dark mode. Her brand colour and other
   styling inside the iframe are Cal.com settings (Appearance), not ours.
 
+**Where every link and button goes** (Aaron, 2026-11-07: "each should
+bring you to one place"). Keep to this map; don't add a second button that
+duplicates one of these:
+- **Nav pills:** Home → `#hero`, Classes → `#classes`, Timetable →
+  `#timetable`, About → `#about`, Contact → `#contact`. No Private
+  Sessions pill.
+- **Floating "Join a class"** (sticky bar) → `#timetable`, the booking
+  calendar.
+- **Hero:** one button only, "See classes" → `#classes`.
+- **Class cards are each one link** (`.class-link`, whose `::before`
+  stretches over the whole card): Group and Online → `#timetable`;
+  Private → `#contact`, because private sessions are arranged by email,
+  and the card text says so. The arrow after the link text is decorative
+  (CSS `content: "→" / ""`, so screen readers skip it). The `#private` id
+  stays on the card in case anything links to it.
+- **Contact:** heading "Get in touch", a line inviting class questions
+  and private-session requests, and an "Email me" button that opens an
+  email with the subject "Yoga with Aoife enquiry" already filled in. The
+  address is also shown as a text link, for people without a mail app.
+  **The address is the placeholder `hello@example.com` until Aoife
+  supplies her real one** — change both links together.
+- Tests check this map: nav order and targets, the single hero button, the
+  floating button's target, each card's target (including clicking the
+  picture itself), and the mailto subject.
+
 **Still placeholder / not yet designed**:
-- Venue name/address, pricing, email, phone — all still bracketed
-  placeholders.
+- Venue name/address, pricing, email (`hello@example.com`), phone — all
+  still placeholders.
 - "Geneva" (from the tagline) is treated as confirmed, since it's her own
   canvas copy; don't add more specific location detail (exact studio
   address, neighbourhood) until supplied.
@@ -238,8 +263,8 @@ the Timetable placeholder and scroll-reveal flow are ours. Tokens live in
   size. One self-hosted SVG file, no build step or PNG fallbacks needed —
   linked via `<link rel="icon" type="image/svg+xml">`.
 - **Header**: tall vermilion header (brand mark, brand name, tagline) with
-  the pill nav row beneath. A slim fixed `.sticky-bar` (name + "Get in
-  touch"-equivalent CTA) slides in once the pill nav scrolls out of view
+  the pill nav row beneath. A slim fixed `.sticky-bar` (name + "Join a
+  class", which goes to the timetable) slides in once the pill nav scrolls out of view
   (`main.js`), and is `visibility: hidden` until then so it's out of the
   tab order — same mechanism as the dietitian site.
 - **Images**: real photos live in `assets/images/` and sit in their slot
