@@ -89,6 +89,40 @@ test('classes grid: three class types, each with a title and description', async
   await expect(page.locator('#private')).toHaveCount(1);
 });
 
+test('each class card is one link: group and online to the timetable, private to contact', async ({ page }) => {
+  await page.goto('/');
+
+  const links = page.locator('#classes .class-item .class-link');
+  await expect(links).toHaveCount(3);
+  await expect(links.nth(0)).toHaveAttribute('href', '#timetable');
+  await expect(links.nth(1)).toHaveAttribute('href', '#contact');
+  await expect(links.nth(2)).toHaveAttribute('href', '#timetable');
+
+  // Clicking on the picture, not just the link text, follows the card's link.
+  const icon = page.locator('#private .class-icon');
+  await icon.scrollIntoViewIfNeeded();
+  const box = await icon.boundingBox();
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  await expect(page).toHaveURL(/#contact$/);
+});
+
+test('every nav item and button goes to its own place', async ({ page }) => {
+  await page.goto('/');
+
+  const nav = await page.$$eval('.site-nav a', (as) => as.map((a) => a.getAttribute('href')));
+  expect(nav).toEqual(['#hero', '#classes', '#timetable', '#about', '#contact']);
+  await expect(page.locator('#hero .hero-actions a')).toHaveCount(1);
+  await expect(page.locator('#hero .hero-actions a')).toHaveAttribute('href', '#classes');
+  await expect(page.locator('[data-sticky-bar] .btn')).toHaveAttribute('href', '#timetable');
+});
+
+test('contact: email button opens a prefilled email', async ({ page }) => {
+  await page.goto('/');
+
+  const email = page.locator('#contact').getByRole('link', { name: 'Email me' });
+  await expect(email).toHaveAttribute('href', /^mailto:[^?]+@[^?]+\?subject=\S+/);
+});
+
 test('every in-page link points at an element that exists', async ({ page }) => {
   await page.goto('/');
 
@@ -192,6 +226,7 @@ test('slim sticky bar appears only after scrolling past the nav', async ({ page 
   await page.locator('#about').scrollIntoViewIfNeeded();
   await expect(bar).toHaveClass(/is-shown/);
   await expect(bar.getByRole('link', { name: 'Join a class' })).toBeVisible();
+  await expect(bar.getByRole('link', { name: 'Join a class' })).toHaveAttribute('href', '#timetable');
 
   await page.evaluate(() => window.scrollTo(0, 0));
   await expect(bar).not.toHaveClass(/is-shown/);

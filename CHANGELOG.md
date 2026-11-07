@@ -38,6 +38,17 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Changed
 
+- Navigation tidied so every link goes to one place: the nav is Home,
+  Classes, Timetable, About and Contact (Private Sessions removed); the
+  floating "Join a class" button goes to the timetable; the top of the
+  page has a single "See classes" button. Button text no longer wraps
+  onto two lines on phones.
+- Class cards are now clickable: Group and Online go to the timetable,
+  Private Sessions goes to Contact (with a line saying to get in touch to
+  arrange one).
+- Contact section: "Get in touch" with an "Email me" button that opens an
+  email with the subject filled in (placeholder address for now),
+  replacing the "Join a class / View timetable" block.
 - "Ways to practise" icons: the grey yoga mats under the figures are
   gone.
 - "Ways to practise" icons redrawn as thin line drawings of a seated,

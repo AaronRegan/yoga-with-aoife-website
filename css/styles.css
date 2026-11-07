@@ -250,6 +250,7 @@ a:hover { color: var(--vermilion-hover); }
   padding: 0.9rem 2rem;
   font-size: 0.95rem;
   font-weight: 500;
+  white-space: nowrap;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
@@ -411,6 +412,10 @@ a:hover { color: var(--vermilion-hover); }
   }
 }
 
+.class-item {
+  position: relative;
+}
+
 .class-item h3 {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
@@ -419,10 +424,46 @@ a:hover { color: var(--vermilion-hover); }
 .class-icon {
   aspect-ratio: 4 / 5;
   background: var(--slate-pale);
+  border: 1px solid transparent;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: border-color 0.2s ease;
+}
+
+/* The card's one link; its ::after stretches over the whole card so the tile, title and text are all clickable. */
+.class-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: var(--vermilion-deep);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.class-link::after {
+  content: "→";
+  content: "→" / "";
+  margin-left: 0.4em;
+}
+
+.class-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+}
+
+.class-item:hover .class-icon { border-color: var(--vermilion-deep); }
+.class-item:hover .class-link { color: var(--vermilion-hover); }
+
+.class-link:focus-visible { outline: none; }
+
+.class-link:focus-visible::before {
+  outline: 3px solid var(--vermilion-deep);
+  outline-offset: 6px;
 }
 
 .class-icon svg {
@@ -536,6 +577,10 @@ a:hover { color: var(--vermilion-hover); }
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
+}
+
+.contact-address {
+  font-size: var(--step--1);
 }
 
 /* Footer */
