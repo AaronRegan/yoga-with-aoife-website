@@ -38,6 +38,8 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Changed
 
+- Contact: Aoife's real email address (aoife.oneill.practice@gmail.com) replaces the
+  placeholder on the "Email me" button and the written address.
 - Navigation tidied so every link goes to one place: the nav is Home,
   Classes, Timetable, About and Contact (Private Sessions removed); the
   floating "Join a class" button goes to the timetable; the top of the
