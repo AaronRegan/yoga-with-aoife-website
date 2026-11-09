@@ -120,7 +120,9 @@ test('contact: email button opens a prefilled email', async ({ page }) => {
   await page.goto('/');
 
   const email = page.locator('#contact').getByRole('link', { name: 'Email me' });
-  await expect(email).toHaveAttribute('href', /^mailto:[^?]+@[^?]+\?subject=\S+/);
+  await expect(email).toHaveAttribute('href', /^mailto:aoife\.oneill\.practice@gmail\.com\?subject=\S+/);
+  await expect(page.locator('#contact')).toContainText('aoife.oneill.practice@gmail.com');
+  await expect(page.locator('#contact')).not.toContainText('example.com');
 });
 
 test('every in-page link points at an element that exists', async ({ page }) => {

@@ -194,15 +194,17 @@ duplicates one of these:
   and private-session requests, and an "Email me" button that opens an
   email with the subject "Yoga with Aoife enquiry" already filled in. The
   address is also shown as a text link, for people without a mail app.
-  **The address is the placeholder `hello@example.com` until Aoife
-  supplies her real one** — change both links together.
+  **The address is aoife.oneill.practice@gmail.com** (2026-11-09, taken
+  from the dietitian site, which got it from her "Design Copy" canvas; Aaron
+  asked for the same address here). It appears in both links and the
+  visible text, and a test pins it, so change all three together if it
+  ever changes (e.g. to a yoga-specific or custom-domain address).
 - Tests check this map: nav order and targets, the single hero button, the
   floating button's target, each card's target (including clicking the
   picture itself), and the mailto subject.
 
 **Still placeholder / not yet designed**:
-- Venue name/address, pricing, email (`hello@example.com`), phone — all
-  still placeholders.
+- Venue name/address, pricing, phone — all still placeholders.
 - "Geneva" (from the tagline) is treated as confirmed, since it's her own
   canvas copy; don't add more specific location detail (exact studio
   address, neighbourhood) until supplied.
