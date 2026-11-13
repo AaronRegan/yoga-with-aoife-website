@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "description": "Yoga with Aoife's site. Static HTML/CSS/JS — this package.json exists only for CI tooling (lint + tests), not for building or serving the site.",
   "scripts": {
-    "lint": "html-validate index.html",
+    "lint": "html-validate index.html fr/index.html",
     "test": "playwright test"
   },
   "devDependencies": {

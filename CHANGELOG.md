@@ -10,6 +10,9 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Added
 
+- French version of the site at `/fr/`, with an "EN / FR" switcher in the
+  top-right of the header. The French text is a first translation for
+  Aoife to review.
 - Class booking: the Timetable section's "See upcoming classes" button
   loads Aoife's Cal.com events page in place (only once clicked, so
   nothing is sent to Cal.com before then). New classes she adds in
