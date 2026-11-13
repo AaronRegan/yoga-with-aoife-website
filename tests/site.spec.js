@@ -16,7 +16,6 @@ const PAGES = [
     path: '/',
     lang: 'en',
     privateTitle: 'Private Sessions',
-    emailButton: 'Email me',
     joinButton: 'Join a class',
     dietitianWord: 'Dietitian',
   },
@@ -24,7 +23,6 @@ const PAGES = [
     path: '/fr/',
     lang: 'fr',
     privateTitle: 'Séances privées',
-    emailButton: 'M’écrire',
     joinButton: 'Rejoindre un cours',
     dietitianWord: 'Diététicienne',
   },
@@ -149,12 +147,14 @@ for (const P of PAGES) {
       await expect(link).toContainText(P.dietitianWord);
     });
 
-    test('contact: email button opens a prefilled email', async ({ page }) => {
+    test('contact: one email button showing the address, opening a prefilled email', async ({ page }) => {
       await page.goto(P.path);
 
-      const email = page.locator('#contact').getByRole('link', { name: P.emailButton });
+      const links = page.locator('#contact a');
+      await expect(links).toHaveCount(1);
+      const email = links.first();
+      await expect(email).toHaveAccessibleName('aoife.oneill.practice@gmail.com');
       await expect(email).toHaveAttribute('href', /^mailto:aoife\.oneill\.practice@gmail\.com\?subject=\S+/);
-      await expect(page.locator('#contact')).toContainText('aoife.oneill.practice@gmail.com');
       await expect(page.locator('#contact')).not.toContainText('example.com');
     });
 

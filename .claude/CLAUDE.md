@@ -197,13 +197,18 @@ duplicates one of these:
   (CSS `content: "→" / ""`, so screen readers skip it). The `#private` id
   stays on the card in case anything links to it.
 - **Contact:** heading "Get in touch", a line inviting class questions
-  and private-session requests, and an "Email me" button that opens an
-  email with the subject "Yoga with Aoife enquiry" already filled in. The
-  address is also shown as a text link, for people without a mail app.
+  and private-session requests, and **one** email button: an outline pill
+  (`.pill--icon`) with an envelope icon and the address as its text, the
+  same as the dietitian site's (Aaron, 2026-11-13; it replaced an "Email
+  me" button plus a separate text link). It opens an email with the
+  subject already filled in ("Yoga with Aoife enquiry", French page
+  "Demande de renseignements – Yoga with Aoife"). Showing the address as
+  the label also serves people without a mail app. The pill may wrap
+  the address on very narrow screens rather than overflow.
   **The address is aoife.oneill.practice@gmail.com** (2026-11-09, taken
   from the dietitian site, which got it from her "Design Copy" canvas; Aaron
-  asked for the same address here). It appears in both links and the
-  visible text, and a test pins it, so change all three together if it
+  asked for the same address here). It's in the link and its visible
+  text on both pages, and a test pins it, so change them together if it
   ever changes (e.g. to a yoga-specific or custom-domain address).
 - Tests check this map: nav order and targets, the single hero button, the
   floating button's target, each card's target (including clicking the

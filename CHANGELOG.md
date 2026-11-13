@@ -10,6 +10,9 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Added
 
+- Contact: one email button showing Aoife's address with an envelope
+  icon, as on the dietitian site, instead of an "Email me" button plus a
+  separate address link.
 - Launch hardening, matching the dietitian site: security headers
   (including a content security policy that allows only the booking
   calendar frame), the public vercel.app addresses redirect to

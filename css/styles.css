@@ -616,8 +616,25 @@ a:hover { color: var(--vermilion-hover); }
   gap: 1.25rem;
 }
 
-.contact-address {
-  font-size: var(--step--1);
+/* One email button, as on the dietitian site: envelope icon + address. */
+.pill--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-inline: 1.4rem;
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+
+.pill--icon svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* Footer */
