@@ -10,6 +10,11 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Added
 
+- Launch hardening, matching the dietitian site: security headers
+  (including a content security policy that allows only the booking
+  calendar frame), the public vercel.app addresses redirect to
+  yoga.aoifeoneill.ch, a branded English/French "page not found" page,
+  project files kept out of the deployment, and read-only CI permissions.
 - French version of the site at `/fr/`, with an "EN / FR" switcher in the
   top-right of the header. The French text is a first translation for
   Aoife to review.

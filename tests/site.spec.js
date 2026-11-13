@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { test, expect } from '@playwright/test';
 
 const SECTION_IDS = [
@@ -332,4 +334,78 @@ test('pre-launch: AI crawlers are blocked in robots.txt', async ({ request }) =>
   expect(aiGroup).toMatch(/^Disallow: \/$/m);
   // Search engines must still be able to fetch the page to see the noindex.
   expect(catchAll).not.toMatch(/^Disallow: \/$/m);
+});
+
+// vercel.json sets these headers on Vercel; the local server doesn't, so the
+// test applies them itself and fails on any Content-Security-Policy violation
+// (e.g. an inline script edited without updating its hash, or a new embed).
+const vercelHeaders = () => {
+  const vercel = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'vercel.json')));
+  return Object.fromEntries(vercel.headers[0].headers.map((h) => [h.key, h.value]));
+};
+
+for (const P of PAGES) {
+  test(`hardening: ${P.lang} page runs cleanly under the production security headers`, async ({ page, baseURL }) => {
+    const headers = vercelHeaders();
+    expect(headers['Content-Security-Policy']).toMatch(/frame-ancestors 'none'/);
+    expect(headers['Content-Security-Policy']).toMatch(/frame-src https:\/\/cal\.com/);
+    expect(headers['X-Content-Type-Options']).toBe('nosniff');
+
+    const violations = [];
+    page.on('console', (msg) => {
+      if (/Content Security Policy/i.test(msg.text())) violations.push(msg.text());
+    });
+    await page.route('**/*', async (route) => {
+      const req = route.request();
+      if (req.resourceType() !== 'document' || !req.url().startsWith(baseURL)) return route.fallback();
+      const response = await route.fetch();
+      await route.fulfill({ response, headers: { ...response.headers(), ...headers } });
+    });
+
+    await page.goto(P.path);
+    // Opening the booking calendar checks the policy allows the Cal.com frame.
+    await page.locator('[data-booking-load]').click();
+    await expect(page.locator('#timetable iframe.booking-frame')).toBeAttached();
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(500);
+    expect(violations).toEqual([]);
+  });
+}
+
+test('hardening: project files are excluded from the deployment', async () => {
+  // Without these, the live domain would serve internal notes and tooling.
+  const ignored = fs.readFileSync(path.join(__dirname, '..', '.vercelignore'), 'utf8')
+    .split('\n').map((l) => l.trim()).filter((l) => l && !l.startsWith('#'));
+  for (const p of ['.claude', '.github', 'tests', 'CHANGELOG.md', 'README.md',
+    'package.json', 'playwright.config.js', '.htmlvalidate.json']) {
+    expect(ignored).toContain(p);
+  }
+  // The site's own files must never be ignored.
+  for (const p of ['index.html', 'fr', '404.html', 'css', 'js', 'assets', 'robots.txt']) {
+    expect(ignored).not.toContain(p);
+  }
+});
+
+test('hardening: public vercel.app production addresses redirect to the domain', async () => {
+  const vercel = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'vercel.json')));
+  const hosts = vercel.redirects.map((r) => r.has[0].value);
+  expect(hosts).toEqual([
+    'yoga-with-aoife-website.vercel.app',
+    'yoga-with-aoife-website-aaronregan.vercel.app',
+    'yoga-with-aoife-website-git-main-aaronregan.vercel.app',
+  ]);
+  for (const r of vercel.redirects) {
+    expect(r.destination).toBe('https://yoga.aoifeoneill.ch/$1');
+    expect(r.permanent).toBe(true);
+  }
+  // The dev preview must never redirect away.
+  expect(hosts.some((h) => h.includes('git-dev'))).toBe(false);
+});
+
+test('404 page is branded in both languages, not indexed, and links home', async ({ page }) => {
+  await page.goto('/404.html');
+  await expect(page.locator('h1')).toContainText('doesn’t exist');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+  await expect(page.locator('main a[href="/"]')).toBeVisible();
+  await expect(page.locator('main [lang="fr"] a[href="/fr/"]')).toBeVisible();
 });
