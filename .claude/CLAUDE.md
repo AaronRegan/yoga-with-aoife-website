@@ -383,8 +383,46 @@ Static site — deploys to Vercel with zero config (no build command, output
 directory is the repo root). Vercel's GitHub app auto-imported the repo
 (2026-11-04) the moment `main` was pushed — project `yoga-with-aoife-website`
 under team `aaronregan`, framework auto-detected as none, production
-branch `main`. No custom domain yet — Vercel's default subdomain is used
-until one is bought.
+branch `main`.
+
+**Domain: `yoga.aoifeoneill.ch`** (added 2026-11-13), a free subdomain of
+the dietitian site's domain: a CNAME `yoga` → Vercel's target, set in
+Aoife's Infomaniak DNS. Vercel issues the HTTPS certificate. It serves
+`main` (production). Deployment protection is "all except custom
+domains", so the domain is public while `*.vercel.app` previews need a
+Vercel login. This is the production domain for now; if a yoga-specific
+domain is bought later, swap it in `vercel.json` redirects, the 404 page
+needs no change, and the launch checklist's absolute URLs use the new one.
+
+**Hardening** (2026-11-13, ported from the dietitian site's PR #53, with
+a `pre-launch`-style test for each part):
+- `vercel.json` sets security headers on every response: a
+  Content-Security-Policy, `nosniff`, `X-Frame-Options: DENY`,
+  `Referrer-Policy`, `Permissions-Policy`.
+  - **The CSP allows the two inline Vercel analytics snippets by sha256
+    hash.** If either snippet changes by a single character (in either
+    language's page), recompute its hash and update `vercel.json`, or
+    the snippet stops running on the live site. The hardening test
+    applies the real headers locally and fails on any CSP violation.
+  - `frame-src https://cal.com https://*.cal.com` allows the booking
+    calendar frame and nothing else. A new embed needs its host added
+    here (the dietitian site has no frames, so its CSP differs here).
+  - The CSP also blocks Vercel's preview comments toolbar. That's
+    accepted: review happens in the browser panel.
+- `vercel.json` 301-redirects the public production `*.vercel.app`
+  addresses to `https://yoga.aoifeoneill.ch`, so there's one address.
+  The `git-dev` preview is deliberately not redirected.
+- `404.html`: branded, bilingual (English, then French), `noindex`,
+  links to `/` and `/fr/`. Root-relative asset paths so it works at any
+  depth.
+- `.vercelignore` keeps tooling and notes (`.claude`, `tests`,
+  `CHANGELOG.md`, `package.json`, …) out of the deployment. Never add a
+  site file (`index.html`, `fr`, `css`, `js`, `assets`, `404.html`,
+  `robots.txt`) to it; a test checks both lists.
+- CI runs with `permissions: contents: read`.
+- No privacy notice is needed yet: the site sets no cookies, Vercel
+  Analytics is cookieless, and Cal.com loads only on click. Revisit if a
+  contact form, newsletter or other tracking is added.
 
 **Watch for duplicate projects**: the same auto-import created a second,
 auto-suffixed project (`yoga-with-aoife-website-6ii7`) off the same repo
