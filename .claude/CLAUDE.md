@@ -203,8 +203,10 @@ duplicates one of these:
   me" button plus a separate text link). It opens an email with the
   subject already filled in ("Yoga with Aoife enquiry", French page
   "Demande de renseignements – Yoga with Aoife"). Showing the address as
-  the label also serves people without a mail app. The pill may wrap
-  the address on very narrow screens rather than overflow.
+  the label also serves people without a mail app. Its text shrinks
+  slightly on the narrowest phones (`min(0.95rem, 4vw)`) so the address
+  stays on one line at 320px (it wraps rather than overflowing if it
+  ever must). Don't add a `<wbr>`: it changes the link's screen-reader name.
   **The address is aoife.oneill.practice@gmail.com** (2026-11-09, taken
   from the dietitian site, which got it from her "Design Copy" canvas; Aaron
   asked for the same address here). It's in the link and its visible
