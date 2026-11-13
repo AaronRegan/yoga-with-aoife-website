@@ -12,6 +12,7 @@ new IntersectionObserver(([entry]) => {
 }).observe(document.querySelector('.site-nav'));
 
 // Booking calendar loads only on click, so no visitor data reaches Cal.com until they ask for it.
+// Its texts come from data attributes on [data-booking], so each language page carries its own.
 const bookingLoad = document.querySelector('[data-booking-load]');
 if (bookingLoad) {
   bookingLoad.addEventListener('click', (event) => {
@@ -24,11 +25,11 @@ if (bookingLoad) {
     // Shows through the transparent iframe until Cal.com's page paints over it.
     const loading = document.createElement('p');
     loading.className = 'booking-loading';
-    loading.textContent = 'Loading upcoming classes…';
+    loading.textContent = booking.dataset.loadingText;
 
     const frame = document.createElement('iframe');
     frame.src = bookingLoad.href;
-    frame.title = 'Upcoming yoga classes and booking';
+    frame.title = booking.dataset.frameTitle;
     frame.className = 'booking-frame';
     frameWrap.append(loading, frame);
 
@@ -37,7 +38,7 @@ if (bookingLoad) {
     newTab.target = '_blank';
     newTab.rel = 'noopener';
     newTab.className = 'text-link booking-newtab';
-    newTab.textContent = 'Open the booking calendar in a new tab';
+    newTab.textContent = booking.dataset.newtabText;
 
     booking.replaceChildren(frameWrap, newTab);
     booking.classList.add('is-loaded');

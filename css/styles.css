@@ -130,9 +130,46 @@ a:hover { color: var(--vermilion-hover); }
 
 /* Header */
 .site-header {
+  position: relative;
   background: var(--vermilion);
   color: var(--cream-text);
   padding: var(--space-l) 0;
+}
+
+/* Top-right corner, above the brand, so it never collides with the centred name on narrow screens. */
+.lang-switch {
+  position: absolute;
+  top: 0.75rem;
+  right: var(--gutter);
+  display: flex;
+  gap: 0.4rem;
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+}
+
+.lang-switch a {
+  color: var(--cream-text);
+  text-decoration: none;
+  padding: 0.15rem 0.2rem;
+}
+
+.lang-switch a:hover { text-decoration: underline; }
+
+.lang-switch a[aria-current="page"] {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.lang-switch a:focus-visible { outline-color: var(--cream-text); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .site-header .container {

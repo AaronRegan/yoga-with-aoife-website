@@ -7,6 +7,9 @@
   <meta name="description" content="Yoga with Aoife — vinyasa and hatha classes in Geneva, in person and online. Coming soon.">
   <meta name="theme-color" content="#CF3D25">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="alternate" hreflang="en" href="/">
+  <link rel="alternate" hreflang="fr" href="/fr/">
+  <link rel="alternate" hreflang="x-default" href="/">
   <!-- Pre-launch: keep placeholder content out of search indexes. Remove at the v1.0.0 launch (see CLAUDE.md). -->
   <meta name="robots" content="noindex, nofollow">
   <link rel="preload" href="assets/fonts/montserrat-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -17,6 +20,11 @@
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
+    <nav class="lang-switch" aria-label="Language">
+      <a href="/" lang="en" hreflang="en" aria-current="page">EN<span class="visually-hidden"> – English</span></a>
+      <span aria-hidden="true">/</span>
+      <a href="/fr/" lang="fr" hreflang="fr">FR<span class="visually-hidden"> – Français</span></a>
+    </nav>
     <div class="container">
       <a class="brand" href="#hero">
         <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
@@ -162,7 +170,7 @@
         <h2 id="timetable-title">Class timetable</h2>
         <p class="accent">book your place</p>
         <p>New classes are added as they’re scheduled. Pick one from my booking calendar to reserve a spot.</p>
-        <div class="booking" data-booking>
+        <div class="booking" data-booking data-loading-text="Loading upcoming classes…" data-frame-title="Upcoming yoga classes and booking" data-newtab-text="Open the booking calendar in a new tab">
           <a class="btn btn-primary" href="https://cal.com/aoifeoneill/events?theme=light" target="_blank" rel="noopener" data-booking-load>See upcoming classes</a>
           <p class="booking-note">This opens my booking calendar from Cal.com.</p>
         </div>

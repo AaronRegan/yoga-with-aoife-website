@@ -79,7 +79,8 @@ add tooling (e.g. the page genuinely outgrows a single CSS/JS file). Don't
 introduce a framework, bundler, or dependency to solve a problem that
 doesn't exist yet.
 
-- `index.html` — all page sections in one file.
+- `index.html` — all page sections in one file. `fr/index.html` is the
+  French version (see Languages below).
 - `css/styles.css` — all styles.
 - `js/main.js` — scroll-reveal (`IntersectionObserver`) + small utilities.
 - `assets/` — images, etc. `assets/fonts/` holds the self-hosted woff2 fonts
@@ -413,43 +414,65 @@ Speed Insights specifically also upgrades the project to Speed Insights
 Plus (a paid tier change), so this stays a dashboard action, not something
 done on Aaron's behalf.
 
-## Languages (French planned, built later)
+## Languages (English and French, built 2026-11-13)
 
-Aoife's own canvas copy says she teaches in English but also speaks French
-and can support students in French — so, unlike the dietitian site, French
-is core to this offering, not a "nice to have". Even so, **don't build the
-French page yet** — it gets built once the English copy is close to final,
-so a design/content change isn't made twice. Keep the English page
-French-ready in the meantime, same approach as the dietitian site:
+Aoife teaches in English but also speaks French and supports students in
+French, so French is core to this offering. Aaron asked for the French
+version on 2026-11-13, ahead of final English copy (an earlier note here
+said to wait; that's superseded). The dietitian site planned the same
+approach but put its French page on hold, so this site is the first to
+build it.
 
-**Decided approach**:
-- A separate static page, `fr/index.html`, sharing `css/`, `js/`, and
-  `assets/` with the English `index.html` at `/`. `lang="fr"` on its
-  `<html>`.
-- A plain-link "EN / FR" switcher in the header (no JS).
-- `hreflang` alternate links on both pages (`en`, `fr`, `x-default` → `/`).
+**How it's built** (the plan agreed for both sites):
+- `fr/index.html` is a full copy of `index.html` with the visible text
+  translated, `lang="fr"`, and asset paths one folder up (`../css/`,
+  `../js/`, `../assets/`). It shares the same CSS, JS and images.
+- **Language switcher:** plain "EN / FR" links (`.lang-switch`) in the
+  top-right corner of the vermilion header, with no JS. The current
+  language has `aria-current="page"` and is bold and underlined. Each link
+  has `lang`/`hreflang`, plus visually hidden text ("– English" /
+  "– Français") so screen readers announce the language, not just "EN".
+- `hreflang` alternates in both heads: `en` → `/`, `fr` → `/fr/`,
+  `x-default` → `/`. **They're relative until there's a domain; make them
+  absolute at launch** (Google wants full URLs).
+- `hreflang="fr"` (all French speakers), not `fr-CH`. The copy has no
+  Swiss-specific wording, and Geneva readers are covered by `fr`. Revisit
+  only if Aoife wants Swiss conventions (e.g. "septante").
 - No automatic redirect by browser language.
 - Rejected: a JS translation toggle (the French text wouldn't be in the
-  HTML, and most crawlers — nearly all AI crawlers — don't run JS); a
-  static site generator (breaks the no-build-step setup; revisit only if
-  the site grows to several pages); auto-translate widgets (quality risk,
-  and they send visitor data to third parties).
+  HTML, and most crawlers, including nearly all AI crawlers, don't run
+  JS); a static site generator (breaks the no-build-step setup; revisit
+  only if the site grows to several pages); auto-translate widgets
+  (quality risk, and they send visitor data to third parties).
 
-**Until then, keep the English page French-ready:**
-- All user-facing text lives in the HTML — never inside images, SVGs, or
-  JS strings.
-- Leave room in the header for the switcher.
-- No fixed-width buttons or tight text containers — French typically runs
-  15–20% longer.
+**Keeping the two in step — every content or markup change goes in both
+files, in the same branch.** The parity test compares the two pages'
+element ids, link targets (ignoring the mailto subject), images, reveal
+elements, class cards and heading structure, and fails if they drift. All
+the other per-page tests run on both pages.
 
-**When it's built:** a parity test so both pages keep the same section
-IDs, links, and structure; run the 375px overflow test on both pages; the
-`pre-launch:` noindex applies to `/fr/` too until launch; real French copy
-translated or reviewed by a fluent speaker — Aoife herself speaks French,
-so she's a natural reviewer, but confirm with her directly rather than
-assuming. Still to decide with the user: which French audience (the canvas
-says "Geneva", so likely Swiss French), which sets the `hreflang` code and
-some word choices.
+**Text that JS shows lives in the HTML too.** The booking calendar's
+loading message, frame title and "open in a new tab" link come from data
+attributes on `[data-booking]` (`data-loading-text`, `data-frame-title`,
+`data-newtab-text`), so each page carries its own language. Never put
+visible text in `main.js`.
+
+**The French copy is Claude's translation and still needs Aoife's
+review** before launch (she's fluent). Translation choices worth her
+checking: the tagline "Cours de yoga en anglais à Genève" (keeps the point
+that classes are taught in English); the nav "Planning" for Timetable;
+"Rejoindre un cours" for "Join a class"; the mailto subject "Demande de
+renseignements – Yoga with Aoife"; and the footer "Diététicienne pour
+enfants et adultes". "Yoga with Aoife" stays in English as the brand name.
+French punctuation uses a narrow no-break space before `?` and `:`.
+
+**Not translated (outside our control):** the Cal.com booking page inside
+the frame follows Cal.com's own language settings, and the footer link
+goes to the dietitian site, which is English-only for now.
+
+**Still French-ready rules for new copy:** all visible text in the HTML
+(never in images, SVGs or JS strings), and no fixed-width buttons or tight
+text containers, since French runs 15–20% longer.
 
 ## Search and AI discoverability
 
@@ -502,8 +525,8 @@ merge to `main` must ship a new version.
 
 ## Testing & CI
 
-- `npm run lint` — HTML validation (`html-validate`, config in
-  `.htmlvalidate.json`).
+- `npm run lint` — HTML validation of both pages (`html-validate`, config
+  in `.htmlvalidate.json`).
 - `npm test` — Playwright smoke tests (`tests/site.spec.js`): no console
   errors, every section present, in-page links resolve, scroll-reveal
   fires, reduced motion shows content, no horizontal overflow at 375px,
