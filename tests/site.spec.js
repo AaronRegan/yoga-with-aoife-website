@@ -259,6 +259,18 @@ for (const P of PAGES) {
       await expect(bar).not.toHaveClass(/is-shown/);
     });
 
+    test('language switcher never overlaps the name, even on a narrow phone', async ({ page }) => {
+      for (const width of [320, 375, 1200]) {
+        await page.setViewportSize({ width, height: 800 });
+        await page.goto(P.path);
+        const sw = await page.locator('.lang-switch').boundingBox();
+        const brand = await page.locator('.site-header .brand').boundingBox();
+        const apart = sw.y + sw.height <= brand.y || brand.y + brand.height <= sw.y
+          || sw.x + sw.width <= brand.x || brand.x + brand.width <= sw.x;
+        expect(apart, `switcher and name overlap at ${width}px`).toBe(true);
+      }
+    });
+
     test('language switcher: plain links, current language marked', async ({ page }) => {
       await page.goto(P.path);
 

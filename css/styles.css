@@ -677,6 +677,8 @@ a:hover { color: var(--vermilion-hover); }
 
 /* Small screens */
 @media (max-width: 480px) {
+  /* Room for the EN/FR switcher above the name, which fills the width here. */
+  .site-header { padding-top: 3.25rem; }
   .site-header .container { padding-inline: var(--gutter); }
   .hero-grid { gap: 2.5rem; }
 }
