@@ -38,6 +38,8 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Changed
 
+- Footer: "Also by Aoife" now links to Aoife's dietitian site,
+  aoifeoneill.ch, replacing the placeholder text.
 - Contact: Aoife's real email address (aoife.oneill.practice@gmail.com) replaces the
   placeholder on the "Email me" button and the written address.
 - Navigation tidied so every link goes to one place: the nav is Home,

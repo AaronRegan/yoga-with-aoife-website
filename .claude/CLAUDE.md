@@ -10,9 +10,10 @@ project: repo `AaronRegan/aoifes-website`, local `~/Development/aoifes-website`,
 its own Vercel project, CLAUDE.md, changelog and releases. Dietitian
 content, design or tooling changes never go in this repo — if a request is
 about the dietitian practice, point to that project instead. The two sites
-will get separate domains and be cross-linked later only via an "Also by
-Aoife" footer link (already slotted in this design) and JSON-LD `sameAs`
-at launch.
+get separate domains and are cross-linked only via an "Also by Aoife"
+footer link (live since 2026-11-13) and, at launch, JSON-LD `sameAs`. The
+dietitian site's domain is `www.aoifeoneill.ch` (bought 2026-11-12); this
+site's domain isn't bought yet.
 
 ## Who you're working with
 
@@ -144,10 +145,14 @@ still applies):
   original capture date, so drop the `Exif` APP1 segment afterwards
   (a short byte-level Python script) and check with `file` that "Exif"
   no longer appears.
-- Footer cross-link slot: "Also by Aoife: [Practice Name] · Paediatric
-  Dietitian →" — kept as a placeholder link (no real URL yet, no domains
-  bought). Fill in once both sites' domains exist (see the two-domains
-  plan at the top of this file).
+- Footer cross-link (2026-11-13, Aaron): "Also by Aoife: Aoife O’Neill ·
+  Paediatric and Adult Dietitian", linking to `https://www.aoifeoneill.ch/`
+  (the primary domain; `aoifeoneill.ch` redirects there). It's a plain
+  link in the same tab, and a test pins the URL. Wording matches the
+  dietitian site's own name and tagline as of 2026-11-13 ("Adult", which
+  replaced "Family" there) — if they change it, update this line. The
+  footer line has no reduced opacity, so the link keeps AA contrast
+  (4.80:1).
 
 **Class booking — Cal.com Events** (2026-11-05, Aaron's choice): the
 Timetable section (ours — her canvas linked to `#timetable` but had no such

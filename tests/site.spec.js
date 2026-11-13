@@ -116,6 +116,14 @@ test('every nav item and button goes to its own place', async ({ page }) => {
   await expect(page.locator('[data-sticky-bar] .btn')).toHaveAttribute('href', '#timetable');
 });
 
+test('footer links to Aoife\'s dietitian site', async ({ page }) => {
+  await page.goto('/');
+
+  const link = page.locator('.footer-crosslink a');
+  await expect(link).toHaveAttribute('href', 'https://www.aoifeoneill.ch/');
+  await expect(link).toContainText('Dietitian');
+});
+
 test('contact: email button opens a prefilled email', async ({ page }) => {
   await page.goto('/');
 
