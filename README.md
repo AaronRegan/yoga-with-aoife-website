@@ -44,7 +44,7 @@ CI (`.github/workflows/ci.yml`) runs both on every push/PR to `main` and
   Merging it deploys to production, and
   [`release.yml`](.github/workflows/release.yml) tags `vX.Y.Z` and publishes
   a GitHub Release from that changelog section.
-- Versioning is SemVer, staying on `0.x` until the public launch (`v1.0.0`).
+- Versioning is SemVer. `v1.0.0` was the public launch (2026-11-14).
 
 ## Deployments
 

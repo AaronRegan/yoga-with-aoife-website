@@ -8,6 +8,27 @@ it automatically (see `.github/workflows/release.yml`).
 
 ## [Unreleased]
 
+## [1.0.0] — 2026-11-14
+
+### Added
+
+- Public launch: the site is open to search engines and AI search, with
+  a sitemap of both pages, canonical links, link previews (title,
+  description and Aoife's photo), structured data describing Aoife and
+  her classes (linked to her dietitian site), and full-URL language
+  links.
+
+### Changed
+
+- "Ways to practise" now opens with "Whether you’re new to yoga or have
+  practised for years, there’s a way to join in." (and the French
+  equivalent), replacing the placeholder line.
+- Page descriptions no longer say "coming soon".
+
+### Removed
+
+- The pre-launch block on search engines and AI crawlers.
+
 ## [0.1.0] — 2026-11-14
 
 ### Added

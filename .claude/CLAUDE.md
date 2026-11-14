@@ -1,9 +1,10 @@
 # Yoga with Aoife — Website
 
 Single-page, scroll-driven site for Aoife's yoga teaching: who she is, the
-classes she offers, and how to join one. The design system is set (below);
-most copy is still placeholder — her design canvas's wording is a strong
-steer but not yet final content.
+classes she offers, and how to join one. Publicly launched as v1.0.0 on
+2026-11-14 at `https://yoga.aoifeoneill.ch`, open to search engines and AI
+crawlers. The copy is Aoife's (from her design canvas) or confirmed by
+Aaron, and the French has been reviewed.
 
 **This is the yoga site only.** Aoife's dietitian site is a separate
 project: repo `AaronRegan/aoifes-website`, local `~/Development/aoifes-website`,
@@ -11,9 +12,9 @@ its own Vercel project, CLAUDE.md, changelog and releases. Dietitian
 content, design or tooling changes never go in this repo — if a request is
 about the dietitian practice, point to that project instead. The two sites
 get separate domains and are cross-linked only via an "Also by Aoife"
-footer link (live since 2026-11-13) and, at launch, JSON-LD `sameAs`. The
-dietitian site's domain is `www.aoifeoneill.ch` (bought 2026-11-12); this
-site's domain isn't bought yet.
+footer link (live since 2026-11-13) and JSON-LD `sameAs` (added at this
+site's launch). The dietitian site's domain is `www.aoifeoneill.ch`
+(bought 2026-11-12); this site uses the subdomain `yoga.aoifeoneill.ch`.
 
 ## Who you're working with
 
@@ -66,8 +67,8 @@ experience. Keep the development side out of her way:
     say so and offer the closest option that works.
   - Self-hosted fonts.
   - Changelog lines.
-  - The pre-launch search-engine block: real content she supplies can go
-    onto `dev`, but it only reaches the public when Aaron releases it.
+  - The site is public and in search results: what she supplies goes
+    onto `dev` first and only reaches the public when Aaron releases it.
   - Design changes she asks for are her call. Update the design-system
     notes below to match.
 
@@ -110,8 +111,7 @@ town]`, pricing, etc.) until then.
 
 **Real content already supplied, from her design canvas** (2026-11-04,
 "Yoga with Aoife Website" canvas, board `Main.dc.html` — use as-is; it
-reaches the public only when Aaron releases, and the pre-launch block
-still applies):
+reaches the public only when Aaron releases):
 - Brand name: **Yoga with Aoife**. Tagline (italic, Cormorant Garamond):
   "English yoga classes in Geneva".
 - Hero headline: "Space to breathe, move and slow down." Intro paragraph:
@@ -218,8 +218,15 @@ duplicates one of these:
   floating button's target, each card's target (including clicking the
   picture itself), and the mailto subject.
 
-**Still placeholder / not yet designed**:
-- Venue name/address, pricing, phone — all still placeholders.
+- Classes intro line (Aaron, 2026-11-14): "Whether you’re new to yoga or
+  have practised for years, there’s a way to join in." / FR "Que vous
+  débutiez ou pratiquiez depuis des années, il y a une façon de vous
+  joindre à nous."
+
+**Not on the site (no placeholders shown):** venue name/address, pricing
+and phone. Booking happens in Cal.com, which carries each class's
+details. Add them only when supplied, and never invent them in the
+structured data (a launch test rejects price, address and phone there).
 - "Geneva" (from the tagline) is treated as confirmed, since it's her own
   canvas copy; don't add more specific location detail (exact studio
   address, neighbourhood) until supplied.
@@ -369,9 +376,9 @@ that OK.
    is already released — so a merge to `main` without a version bump is a
    mistake.
 
-**Versioning** (SemVer, `0.x` until real launch): minor = new sections or
-features, patch = fixes and copy tweaks. `v1.0.0` = public launch with real
-content and a custom domain.
+**Versioning** (SemVer): `v1.0.0` was the public launch (2026-11-14).
+Since then, major = a redesign or a change of domain, minor = new
+sections or features, patch = fixes and copy tweaks.
 
 **Hotfix**: `hotfix/*` off `main` → bump the patch version in CHANGELOG.md
 in the same branch → PR into `main` (user merges; tagged automatically) →
@@ -479,9 +486,9 @@ build it.
   language has `aria-current="page"` and is bold and underlined. Each link
   has `lang`/`hreflang`, plus visually hidden text ("– English" /
   "– Français") so screen readers announce the language, not just "EN".
-- `hreflang` alternates in both heads: `en` → `/`, `fr` → `/fr/`,
-  `x-default` → `/`. **They're relative until there's a domain; make them
-  absolute at launch** (Google wants full URLs).
+- `hreflang` alternates in both heads, as full URLs (Google wants them):
+  `en` → `https://yoga.aoifeoneill.ch/`, `fr` → `…/fr/`, `x-default` → `/`.
+  The EN/FR switcher links stay relative (`/`, `/fr/`).
 - `hreflang="fr"` (all French speakers), not `fr-CH`. The copy has no
   Swiss-specific wording, and Geneva readers are covered by `fr`. Revisit
   only if Aoife wants Swiss conventions (e.g. "septante").
@@ -504,9 +511,10 @@ attributes on `[data-booking]` (`data-loading-text`, `data-frame-title`,
 `data-newtab-text`), so each page carries its own language. Never put
 visible text in `main.js`.
 
-**The French copy is Claude's translation and still needs Aoife's
-review** before launch (she's fluent). Translation choices worth her
-checking: the tagline "Cours de yoga en anglais à Genève" (keeps the point
+**The French copy was reviewed** (Aaron, 2026-11-14: "the french is
+reviewed"). The one correction: the pull-quote is "Le yoga pour tout le
+monde" (everybody), not "tous les corps". Translation choices made at the
+time, now accepted: the tagline "Cours de yoga en anglais à Genève" (keeps the point
 that classes are taught in English); the nav "Planning" for Timetable;
 "Rejoindre un cours" for "Join a class"; the mailto subject "Demande de
 renseignements – Yoga with Aoife"; and the footer "Diététicienne pour
@@ -523,43 +531,41 @@ text containers, since French runs 15–20% longer.
 
 ## Search and AI discoverability
 
-**Current state: pre-launch block.** While content is placeholder, the
-site is kept out of search engines and AI models on purpose, so the first
-thing they learn about "Yoga with Aoife" isn't a Coming Soon page:
-- `<meta name="robots" content="noindex, nofollow">` in `index.html` —
-  Google/Bing (and the AI search products that use their indexes) won't
-  list the page.
-- `robots.txt` blocks AI crawlers (GPTBot, ClaudeBot, PerplexityBot,
-  Google-Extended, CCBot, etc.), which don't reliably honour `noindex`.
-  `User-agent: *` stays allowed — search engines must be able to fetch the
-  page to see the `noindex`. Never `Disallow: /` for everyone.
-- A `pre-launch:` test enforces both. Lift the block only as part of the
-  `v1.0.0` launch, never earlier.
+**Current state: launched (v1.0.0, 2026-11-14).** Both pages are open
+to search engines and AI crawlers. A `launch:` test pins all of this:
+- No `robots` meta on `/` or `/fr/`. The 404 page alone stays `noindex`.
+- `robots.txt` allows everyone (no AI-crawler block) and names
+  `https://yoga.aoifeoneill.ch/sitemap.xml`.
+- `sitemap.xml` lists both pages, each with `xhtml:link` hreflang
+  alternates. Update `lastmod` when the content changes meaningfully.
+- Each page has a canonical (itself), a real meta description, Open
+  Graph tags (`og:image` is the hero photo, an absolute URL) and a
+  `summary` Twitter card. The French page has `og:locale` `fr_FR`.
+- `hreflang` alternates are full URLs on `yoga.aoifeoneill.ch`.
+- JSON-LD in each head: a `Person` (Aoife, yoga teacher, speaks en/fr,
+  `sameAs` the dietitian site) and a `Service` (Yoga with Aoife, Geneva,
+  the three ways to practise, `provider` = the Person). It's in each
+  page's language. `application/ld+json` isn't executed, so the CSP
+  doesn't need a hash for it. No price, address or phone in it until
+  the site publishes them.
+- **If the domain ever changes**, update the canonicals, `og:` URLs,
+  hreflang links, JSON-LD, `robots.txt`, `sitemap.xml`, `vercel.json`
+  redirects and the tests together.
 
-**Launch checklist** (do together with real content, the French page, and
-the custom domain):
-1. Remove the `noindex` meta (both languages); in `robots.txt` remove the
-   AI block and add a `Sitemap:` line; delete or invert the `pre-launch:`
-   test.
-2. Add `sitemap.xml`, a canonical URL, a real meta description, and Open
-   Graph tags for link previews.
-3. JSON-LD structured data: a `Person`/`ExerciseAction`-style or
-   professional-service entry (what she teaches, where, in-person/online,
-   any teaching qualifications, `sameAs` links to her profiles — plus the
-   `sameAs` link to the dietitian site, per the cross-link plan).
-4. Copy that states plainly who she is, what she teaches, where (in
-   person / online), and in what languages. Consider a short FAQ — LLMs
-   pick up Q&A well.
-5. Optional `llms.txt` (short Markdown summary). Little evidence the major
-   models use it yet, but it's cheap.
-6. Submit to Google Search Console and Bing Webmaster Tools (Bing feeds
-   ChatGPT search and Copilot).
-7. If DNS goes through Cloudflare, check its "block AI bots" setting is
+**Still to do after launch** (not code):
+1. Submit the sitemap to Google Search Console and Bing Webmaster Tools
+   (Bing feeds ChatGPT search and Copilot). Aaron's job.
+2. Off-site (remind Aaron/Aoife): Google Business Profile, local
+   class-listing directories, Instagram/social profiles, with the same
+   name and contact details everywhere. LLMs lean heavily on these when
+   recommending local classes. Add any profile URLs to the JSON-LD
+   `sameAs`.
+3. The dietitian site's JSON-LD could add `sameAs`
+   `https://yoga.aoifeoneill.ch/` back. That's a change in its own repo.
+4. Optional: a short FAQ section (LLMs pick up Q&A well) and an
+   `llms.txt`. Little evidence the major models use `llms.txt` yet.
+5. If DNS ever moves to Cloudflare, check its "block AI bots" setting is
    off.
-8. Off-site (user's job, but remind them): Google Business Profile,
-   local class-listing directories, Instagram/social profiles — with the
-   same name and contact details everywhere. LLMs lean heavily on these
-   when recommending local classes.
 
 ## Changelog policy
 
