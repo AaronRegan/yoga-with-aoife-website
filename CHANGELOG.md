@@ -8,6 +8,8 @@ it automatically (see `.github/workflows/release.yml`).
 
 ## [Unreleased]
 
+## [1.0.0] — 2026-11-14
+
 ### Added
 
 - Public launch: the site is open to search engines and AI search, with
