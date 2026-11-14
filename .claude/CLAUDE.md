@@ -117,7 +117,9 @@ still applies):
 - Hero headline: "Space to breathe, move and slow down." Intro paragraph:
   vinyasa and hatha flows, options for every level.
 - Pull-quote band: "Yoga for every body. Come as you are, and leave
-  feeling a little lighter and a little stronger."
+  feeling a little lighter and a little stronger." "Every body" means
+  *everybody* (yoga for everyone), not body types (Aaron, 2026-11-14):
+  the French is "Le yoga pour tout le monde", not "tous les corps".
 - Three class types (Classes grid): Group Classes ("Weekly classes in a
   small, friendly group"), Private Sessions ("One-to-one yoga, tailored to
   your needs and wishes"), Online Classes ("Practise from home, wherever

@@ -53,6 +53,8 @@ it automatically (see `.github/workflows/release.yml`).
 
 ### Changed
 
+- French pull-quote: "Le yoga pour tout le monde" (yoga for everyone),
+  replacing "pour tous les corps", which read as "every body type".
 - Footer: "Also by Aoife" now links to Aoife's dietitian site,
   aoifeoneill.ch, replacing the placeholder text.
 - Contact: Aoife's real email address (aoife.oneill.practice@gmail.com) replaces the
