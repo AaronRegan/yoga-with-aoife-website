@@ -8,6 +8,8 @@ it automatically (see `.github/workflows/release.yml`).
 
 ## [Unreleased]
 
+## [0.1.0] — 2026-11-14
+
 ### Added
 
 - Contact: one email button showing Aoife's address with an envelope
