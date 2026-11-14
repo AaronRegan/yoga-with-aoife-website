@@ -1,0 +1,18 @@
+# Only the site itself is deployed. Everything below is project tooling or
+# notes and must not be publicly readable on the live domain.
+.claude
+.github
+.idea
+.DS_Store
+.gitignore
+.htmlvalidate.json
+.vercelignore
+node_modules
+tests
+test-results
+playwright-report
+playwright.config.js
+package.json
+package-lock.json
+CHANGELOG.md
+README.md

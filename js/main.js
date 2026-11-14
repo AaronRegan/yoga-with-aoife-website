@@ -11,6 +11,40 @@ new IntersectionObserver(([entry]) => {
   stickyBar.classList.toggle('is-shown', scrolledPast);
 }).observe(document.querySelector('.site-nav'));
 
+// Booking calendar loads only on click, so no visitor data reaches Cal.com until they ask for it.
+// Its texts come from data attributes on [data-booking], so each language page carries its own.
+const bookingLoad = document.querySelector('[data-booking-load]');
+if (bookingLoad) {
+  bookingLoad.addEventListener('click', (event) => {
+    event.preventDefault();
+    const booking = bookingLoad.closest('[data-booking]');
+
+    const frameWrap = document.createElement('div');
+    frameWrap.className = 'booking-frame-wrap';
+
+    // Shows through the transparent iframe until Cal.com's page paints over it.
+    const loading = document.createElement('p');
+    loading.className = 'booking-loading';
+    loading.textContent = booking.dataset.loadingText;
+
+    const frame = document.createElement('iframe');
+    frame.src = bookingLoad.href;
+    frame.title = booking.dataset.frameTitle;
+    frame.className = 'booking-frame';
+    frameWrap.append(loading, frame);
+
+    const newTab = document.createElement('a');
+    newTab.href = bookingLoad.href;
+    newTab.target = '_blank';
+    newTab.rel = 'noopener';
+    newTab.className = 'text-link booking-newtab';
+    newTab.textContent = booking.dataset.newtabText;
+
+    booking.replaceChildren(frameWrap, newTab);
+    booking.classList.add('is-loaded');
+  });
+}
+
 const revealTargets = document.querySelectorAll('[data-reveal]');
 
 // Stagger via data attribute — html-validate forbids inline style attributes.

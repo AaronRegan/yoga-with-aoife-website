@@ -25,6 +25,7 @@
   --cream-text: #FFF6F2;
   --text: #2E3A55;
   --line: #C3CDDD;
+  --slate-pale: #EEF2FA;
 
   --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-accent: "Cormorant Garamond", Georgia, "Times New Roman", serif;
@@ -129,9 +130,46 @@ a:hover { color: var(--vermilion-hover); }
 
 /* Header */
 .site-header {
+  position: relative;
   background: var(--vermilion);
   color: var(--cream-text);
   padding: var(--space-l) 0;
+}
+
+/* Top-right corner, above the brand, so it never collides with the centred name on narrow screens. */
+.lang-switch {
+  position: absolute;
+  top: 0.75rem;
+  right: var(--gutter);
+  display: flex;
+  gap: 0.4rem;
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+}
+
+.lang-switch a {
+  color: var(--cream-text);
+  text-decoration: none;
+  padding: 0.15rem 0.2rem;
+}
+
+.lang-switch a:hover { text-decoration: underline; }
+
+.lang-switch a[aria-current="page"] {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.lang-switch a:focus-visible { outline-color: var(--cream-text); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .site-header .container {
@@ -249,6 +287,7 @@ a:hover { color: var(--vermilion-hover); }
   padding: 0.9rem 2rem;
   font-size: 0.95rem;
   font-weight: 500;
+  white-space: nowrap;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
@@ -302,7 +341,15 @@ a:hover { color: var(--vermilion-hover); }
   flex: 0 1 380px;
 }
 
-.img-slot--class { aspect-ratio: 4 / 5; }
+.img-slot--photo { padding: clamp(10px, 4%, 16px); }
+
+.img-slot--photo img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  object-position: 50% 58%;
+}
 
 /* Sections */
 .section {
@@ -402,9 +449,93 @@ a:hover { color: var(--vermilion-hover); }
   }
 }
 
+.class-item {
+  position: relative;
+}
+
 .class-item h3 {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
+}
+
+.class-icon {
+  aspect-ratio: 4 / 5;
+  background: var(--slate-pale);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease;
+}
+
+/* The card's one link; its ::after stretches over the whole card so the tile, title and text are all clickable. */
+.class-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: var(--vermilion-deep);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.class-link::after {
+  content: "→";
+  content: "→" / "";
+  margin-left: 0.4em;
+}
+
+.class-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+}
+
+.class-item:hover .class-icon { border-color: var(--vermilion-deep); }
+.class-item:hover .class-link { color: var(--vermilion-hover); }
+
+.class-link:focus-visible { outline: none; }
+
+.class-link:focus-visible::before {
+  outline: 3px solid var(--vermilion-deep);
+  outline-offset: 6px;
+}
+
+.class-icon svg {
+  width: 78%;
+  height: 78%;
+  overflow: visible;
+}
+
+/* Holds the shared <use> figure definition; takes no space. */
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.figure {
+  fill: none;
+  stroke-width: 0.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Stroke scales with the figure, so the half-size phone figure doubles it to match the others. */
+.figure--small { stroke-width: 1.5; }
+
+.figure--instructor { stroke: var(--vermilion-deep); }
+.figure--student { stroke: var(--slate-mid); }
+
+.device {
+  fill: var(--slate-pale);
+  stroke: var(--slate-mid);
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* Timetable */
@@ -417,6 +548,51 @@ a:hover { color: var(--vermilion-hover); }
   align-items: center;
   gap: 1rem;
 }
+
+.booking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.booking-note {
+  font-size: var(--step--1);
+  opacity: 0.8;
+}
+
+/* Wider than the text column so Cal.com's calendar sidebar has room; never wider than the viewport. */
+.booking.is-loaded {
+  width: min(1000px, calc(100vw - 2 * var(--gutter)));
+}
+
+.booking-frame-wrap {
+  position: relative;
+  width: 100%;
+  height: clamp(560px, 80vh, 860px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--slate-pale);
+  display: grid;
+  place-items: center;
+}
+
+.booking-loading {
+  font-size: var(--step--1);
+  opacity: 0.8;
+}
+
+.booking-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.booking-newtab { font-size: var(--step--1); }
 
 /* About */
 .about-copy {
@@ -438,6 +614,33 @@ a:hover { color: var(--vermilion-hover); }
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
+}
+
+/* One email button, as on the dietitian site: envelope icon + address. */
+.pill--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-inline: 1.4rem;
+  /* Shrinks a little on the narrowest phones so the address fits on one
+     line; if it ever can't, it wraps rather than overflowing. */
+  font-size: min(0.95rem, 4vw);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 380px) {
+  .pill--icon { padding-inline: 1rem; gap: 0.5rem; }
+}
+
+.pill--icon svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* Footer */
@@ -463,7 +666,6 @@ a:hover { color: var(--vermilion-hover); }
 
 .footer-crosslink {
   font-size: var(--step--1);
-  opacity: 0.8;
 }
 
 /* Scroll reveal (progressively enhanced — content is visible without JS) */
@@ -498,6 +700,8 @@ a:hover { color: var(--vermilion-hover); }
 
 /* Small screens */
 @media (max-width: 480px) {
+  /* Room for the EN/FR switcher above the name, which fills the width here. */
+  .site-header { padding-top: 3.25rem; }
   .site-header .container { padding-inline: var(--gutter); }
   .hero-grid { gap: 2.5rem; }
 }

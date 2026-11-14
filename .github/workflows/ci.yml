@@ -6,9 +6,14 @@ on:
   pull_request:
     branches: [main, dev]
 
+# Least privilege: the test job only needs to read the repo.
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 

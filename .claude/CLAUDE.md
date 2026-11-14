@@ -10,9 +10,10 @@ project: repo `AaronRegan/aoifes-website`, local `~/Development/aoifes-website`,
 its own Vercel project, CLAUDE.md, changelog and releases. Dietitian
 content, design or tooling changes never go in this repo — if a request is
 about the dietitian practice, point to that project instead. The two sites
-will get separate domains and be cross-linked later only via an "Also by
-Aoife" footer link (already slotted in this design) and JSON-LD `sameAs`
-at launch.
+get separate domains and are cross-linked only via an "Also by Aoife"
+footer link (live since 2026-11-13) and, at launch, JSON-LD `sameAs`. The
+dietitian site's domain is `www.aoifeoneill.ch` (bought 2026-11-12); this
+site's domain isn't bought yet.
 
 ## Who you're working with
 
@@ -78,7 +79,8 @@ add tooling (e.g. the page genuinely outgrows a single CSS/JS file). Don't
 introduce a framework, bundler, or dependency to solve a problem that
 doesn't exist yet.
 
-- `index.html` — all page sections in one file.
+- `index.html` — all page sections in one file. `fr/index.html` is the
+  French version (see Languages below).
 - `css/styles.css` — all styles.
 - `js/main.js` — scroll-reveal (`IntersectionObserver`) + small utilities.
 - `assets/` — images, etc. `assets/fonts/` holds the self-hosted woff2 fonts
@@ -115,7 +117,9 @@ still applies):
 - Hero headline: "Space to breathe, move and slow down." Intro paragraph:
   vinyasa and hatha flows, options for every level.
 - Pull-quote band: "Yoga for every body. Come as you are, and leave
-  feeling a little lighter and a little stronger."
+  feeling a little lighter and a little stronger." "Every body" means
+  *everybody* (yoga for everyone), not body types (Aaron, 2026-11-14):
+  the French is "Le yoga pour tout le monde", not "tous les corps".
 - Three class types (Classes grid): Group Classes ("Weekly classes in a
   small, friendly group"), Private Sessions ("One-to-one yoga, tailored to
   your needs and wishes"), Online Classes ("Practise from home, wherever
@@ -128,25 +132,94 @@ still applies):
   stillness, some dynamic and strength-building, others slow and calming;
   she teaches in English but also speaks French and can support students
   in French.
-- Hero photo: Aoife in a seated twist, outdoors on a mountain path (from
-  her canvas). **Not yet in this repo** — the canvas stores it as an asset
-  uploaded by a collaborator (not the canvas's owner account), which this
-  tooling can't read programmatically. Aaron needs to download it from the
-  canvas and hand it over directly; until then the hero uses a generic
-  `.img-slot` placeholder. Check EXIF/GPS before committing any photo.
-- Footer cross-link slot: "Also by Aoife: [Practice Name] · Paediatric
-  Dietitian →" — kept as a placeholder link (no real URL yet, no domains
-  bought). Fill in once both sites' domains exist (see the two-domains
-  plan at the top of this file).
+- Hero photo (2026-11-06, Aaron supplied; replaces the 2026-11-04 seated
+  twist on a mountain path from her canvas): `assets/images/aoife-hero.jpg`,
+  Aoife smiling, sitting cross-legged on a blue yoga mat against a white
+  wall. Resized to 900×1306 (~43 KB), converted from Display P3 to sRGB,
+  and the whole EXIF block stripped. The original had no GPS, but did
+  carry a capture date/time, which we don't publish. Shown in the hero
+  circle via `.img-slot--photo` with `object-position: 50% 58%`, which
+  fits head (with headroom) to mat inside the circle. Alt "Aoife smiling,
+  sitting cross-legged on a yoga mat".
+- **Photo prep recipe** (no Pillow/ImageMagick on this machine):
+  `sips -m "/System/Library/ColorSync/Profiles/sRGB Profile.icc"
+  --resampleWidth 900 -s format png`, then `sips -s format jpeg -s
+  formatOptions low`. `sips` re-adds a small EXIF block, including the
+  original capture date, so drop the `Exif` APP1 segment afterwards
+  (a short byte-level Python script) and check with `file` that "Exif"
+  no longer appears.
+- Footer cross-link (2026-11-13, Aaron): "Also by Aoife: Aoife O’Neill ·
+  Paediatric and Adult Dietitian", linking to `https://www.aoifeoneill.ch/`
+  (the primary domain; `aoifeoneill.ch` redirects there). It's a plain
+  link in the same tab, and a test pins the URL. Wording matches the
+  dietitian site's own name and tagline as of 2026-11-13 ("Adult", which
+  replaced "Family" there) — if they change it, update this line. The
+  footer line has no reduced opacity, so the link keeps AA contrast
+  (4.80:1).
+
+**Class booking — Cal.com Events** (2026-11-05, Aaron's choice): the
+Timetable section (ours — her canvas linked to `#timetable` but had no such
+section) has a "See upcoming classes" button for her Cal.com events page,
+`https://cal.com/aoifeoneill/events?theme=light`.
+- **Why Events, not a seated event type:** her classes are ad hoc, with no
+  weekly rhythm. Each class is a one-off Cal.com Event with its own date,
+  capacity ("spots remaining" → "Sold out" / waitlist) and optional
+  approval. Guests register without a Cal.com account. If she settles into
+  a fixed weekly class, a seated event type would be less work for her;
+  the site change would just be that one link.
+- **The site never lists individual classes.** It only points at the
+  `/events` directory, so publishing a new Event in Cal.com shows up with
+  no site change. Don't switch to per-Event embeds. Events with "Private
+  event" switched on don't appear in the directory.
+- **Click-to-load, for GDPR:** nothing is requested from Cal.com until the
+  visitor clicks. `main.js` then swaps the button for an iframe of the
+  same URL plus an "open in a new tab" link. Without JS, the button is a
+  plain link that opens the page in a new tab. A test enforces "no Cal.com
+  request before the click" — keep it. It's a plain iframe, not Cal.com's
+  `embed.js` (no third-party script on our page). Cal.com sends no
+  frame-blocking headers (checked 2026-11-05); if it ever starts, the
+  new-tab link still works.
+- `?theme=light` keeps Cal.com's page light, matching the site; it
+  otherwise follows the visitor's OS dark mode. Her brand colour and other
+  styling inside the iframe are Cal.com settings (Appearance), not ours.
+
+**Where every link and button goes** (Aaron, 2026-11-07: "each should
+bring you to one place"). Keep to this map; don't add a second button that
+duplicates one of these:
+- **Nav pills:** Home → `#hero`, Classes → `#classes`, Timetable →
+  `#timetable`, About → `#about`, Contact → `#contact`. No Private
+  Sessions pill.
+- **Floating "Join a class"** (sticky bar) → `#timetable`, the booking
+  calendar.
+- **Hero:** one button only, "See classes" → `#classes`.
+- **Class cards are each one link** (`.class-link`, whose `::before`
+  stretches over the whole card): Group and Online → `#timetable`;
+  Private → `#contact`, because private sessions are arranged by email,
+  and the card text says so. The arrow after the link text is decorative
+  (CSS `content: "→" / ""`, so screen readers skip it). The `#private` id
+  stays on the card in case anything links to it.
+- **Contact:** heading "Get in touch", a line inviting class questions
+  and private-session requests, and **one** email button: an outline pill
+  (`.pill--icon`) with an envelope icon and the address as its text, the
+  same as the dietitian site's (Aaron, 2026-11-13; it replaced an "Email
+  me" button plus a separate text link). It opens an email with the
+  subject already filled in ("Yoga with Aoife enquiry", French page
+  "Demande de renseignements – Yoga with Aoife"). Showing the address as
+  the label also serves people without a mail app. Its text shrinks
+  slightly on the narrowest phones (`min(0.95rem, 4vw)`) so the address
+  stays on one line at 320px (it wraps rather than overflowing if it
+  ever must). Don't add a `<wbr>`: it changes the link's screen-reader name.
+  **The address is aoife.oneill.practice@gmail.com** (2026-11-09, taken
+  from the dietitian site, which got it from her "Design Copy" canvas; Aaron
+  asked for the same address here). It's in the link and its visible
+  text on both pages, and a test pins it, so change them together if it
+  ever changes (e.g. to a yoga-specific or custom-domain address).
+- Tests check this map: nav order and targets, the single hero button, the
+  floating button's target, each card's target (including clicking the
+  picture itself), and the mailto subject.
 
 **Still placeholder / not yet designed**:
-- A **Timetable** section — the canvas's nav and "View timetable" button
-  both link to `#timetable`, but no such section exists in her board. This
-  repo adds a placeholder Timetable section (heading + "Times to follow"
-  copy) so those links resolve; replace with real class times once Aoife
-  supplies them.
-- Venue name/address, pricing, email, phone — all still bracketed
-  placeholders.
+- Venue name/address, pricing, phone — all still placeholders.
 - "Geneva" (from the tagline) is treated as confirmed, since it's her own
   canvas copy; don't add more specific location detail (exact studio
   address, neighbourhood) until supplied.
@@ -202,16 +275,47 @@ the Timetable placeholder and scroll-reveal flow are ours. Tokens live in
   blocks in the Classes grid; hairline dividers between sections.
 - **Brand mark**: a simple line-drawn lotus/plant silhouette (from her
   canvas), decorative (`aria-hidden`), used in the header and sticky bar.
+  The same mark is the favicon (`assets/favicon.svg`, 2026-11-04): cream
+  lotus strokes on a rounded vermilion square, legible down to tab-icon
+  size. One self-hosted SVG file, no build step or PNG fallbacks needed —
+  linked via `<link rel="icon" type="image/svg+xml">`.
 - **Header**: tall vermilion header (brand mark, brand name, tagline) with
-  the pill nav row beneath. A slim fixed `.sticky-bar` (name + "Get in
-  touch"-equivalent CTA) slides in once the pill nav scrolls out of view
+  the pill nav row beneath. A slim fixed `.sticky-bar` (name + "Join a
+  class", which goes to the timetable) slides in once the pill nav scrolls out of view
   (`main.js`), and is `visibility: hidden` until then so it's out of the
   tab order — same mechanism as the dietitian site.
 - **Images**: real photos live in `assets/images/` and sit in their slot
   with `.img-slot--photo` (a ring of the slot colour, image cropped with
   `object-fit: cover`). Check new photos for EXIF/GPS before committing.
-  The Classes grid tiles and the About portrait are still `.img-slot`
-  placeholders.
+  The hero photo is real (see Content policy above).
+- **Classes grid icons** (final redraw 2026-11-06, `.class-icon` tiles,
+  `--slate-pale` background): one shared seated-figure drawing,
+  `#seated-figure`, plus `#sun-rays`, both in a hidden `.svg-defs` block
+  above the grid and placed with `<use>`. The style is a thin, even line in
+  the manner of a typical line-icon set. The figure has a round head;
+  narrow rounded shoulders; upper arms dropping almost straight down, then
+  bending at the elbow so the forearms angle out and the hands end just
+  above the knees; two inner lines that run down the torso and continue
+  round each knee as the legs, meeting in a shallow V at the bottom; and
+  two small curves on top for the feet. Short sun rays around the head
+  mark the teacher (Group and Private only; not on the small phone figure).
+  - **Origin:** Aaron picked it after several rounds, from the cross-legged
+    "meditation" icon in a stock "Wellness 30 line icons" set (iStock,
+    2026-11-06). **It's our own drawing in that style, not a copy or trace —
+    the stock icons are licensed; keep it that way.** Rejected along the
+    way: the chunky rounded figure (2026-11-04), thin stick figures, an
+    arms-overhead pose, and a flowing calligraphic figure with
+    infinity-loop legs.
+  - Coloured by role: `.figure--instructor` (`--vermilion-deep`) vs
+    `.figure--student` (`--slate-mid`). Stroke `0.75` in figure units;
+    because it scales with the figure, the half-size phone figure uses
+    `.figure--small` (`1.5`) so all lines look the same weight.
+  - **No mats** (removed 2026-11-06, Aaron's request). Earlier versions
+    had a grey mat under each figure; don't add them back without asking.
+  - Group Classes: the teacher sits higher (further back) and only slightly
+    larger than the two students (Aaron, 2026-11-04: no big size gap).
+    Online Classes: the figure on a phone outline (`.device`, stroke
+    `0.9`), sized to sit fully inside the screen.
 - **Grids**: the 3-item Classes grid uses explicit breakpoints (not
   `auto-fit`) so an item is never orphaned on its own row.
 - For new visual directions beyond this system, ask first.
@@ -237,10 +341,20 @@ Each merge into `dev` should be one coherent unit with a PR description
 that states the goal.
 
 **Feature flow**: branch off `dev` (`feature/*`, `content/*`, `chore/*`) →
-PR into `dev` → Claude merges once CI is green. Each feature adds a line
+**show the change in the browser panel and wait for the user's OK** → PR
+into `dev` → Claude merges once CI is green. Each feature adds a line
 under `## [Unreleased]` in CHANGELOG.md. **Don't open a `dev` → `main` PR
 after each feature** — features batch up on `dev` until the user asks for
 a release.
+
+**Show before merging** (Aaron, 2026-11-04): never merge into `dev` until
+the user has seen the change. Serve the branch with the `static-site`
+preview in the browser panel, scroll to the changed spot (check phone
+width too when layout changes), say what changed, and wait for an
+explicit OK. Docs-only changes: show the changed text instead. Keep the
+working tree on the branch being reviewed while waiting, because the
+panel serves whatever is checked out. In Aoife mode, her "send it" is
+that OK.
 
 **Release flow** (only when the user asks to cut/ship a release):
 1. On a `release/vX.Y.Z` branch off `dev`, turn `## [Unreleased]` into
@@ -275,9 +389,56 @@ overall run status.
 ## Deployment
 
 Static site — deploys to Vercel with zero config (no build command, output
-directory is the repo root). No custom domain yet — Aaron will import the
-repo into its own Vercel project (see the reminder below) and use Vercel's
-default subdomain until a domain is bought.
+directory is the repo root). Vercel's GitHub app auto-imported the repo
+(2026-11-04) the moment `main` was pushed — project `yoga-with-aoife-website`
+under team `aaronregan`, framework auto-detected as none, production
+branch `main`.
+
+**Domain: `yoga.aoifeoneill.ch`** (added 2026-11-13), a free subdomain of
+the dietitian site's domain: a CNAME `yoga` → Vercel's target, set in
+Aoife's Infomaniak DNS. Vercel issues the HTTPS certificate. It serves
+`main` (production). Deployment protection is "all except custom
+domains", so the domain is public while `*.vercel.app` previews need a
+Vercel login. This is the production domain for now; if a yoga-specific
+domain is bought later, swap it in `vercel.json` redirects, the 404 page
+needs no change, and the launch checklist's absolute URLs use the new one.
+
+**Hardening** (2026-11-13, ported from the dietitian site's PR #53, with
+a `pre-launch`-style test for each part):
+- `vercel.json` sets security headers on every response: a
+  Content-Security-Policy, `nosniff`, `X-Frame-Options: DENY`,
+  `Referrer-Policy`, `Permissions-Policy`.
+  - **The CSP allows the two inline Vercel analytics snippets by sha256
+    hash.** If either snippet changes by a single character (in either
+    language's page), recompute its hash and update `vercel.json`, or
+    the snippet stops running on the live site. The hardening test
+    applies the real headers locally and fails on any CSP violation.
+  - `frame-src https://cal.com https://*.cal.com` allows the booking
+    calendar frame and nothing else. A new embed needs its host added
+    here (the dietitian site has no frames, so its CSP differs here).
+  - The CSP also blocks Vercel's preview comments toolbar. That's
+    accepted: review happens in the browser panel.
+- `vercel.json` 301-redirects the public production `*.vercel.app`
+  addresses to `https://yoga.aoifeoneill.ch`, so there's one address.
+  The `git-dev` preview is deliberately not redirected.
+- `404.html`: branded, bilingual (English, then French), `noindex`,
+  links to `/` and `/fr/`. Root-relative asset paths so it works at any
+  depth.
+- `.vercelignore` keeps tooling and notes (`.claude`, `tests`,
+  `CHANGELOG.md`, `package.json`, …) out of the deployment. Never add a
+  site file (`index.html`, `fr`, `css`, `js`, `assets`, `404.html`,
+  `robots.txt`) to it; a test checks both lists.
+- CI runs with `permissions: contents: read`.
+- No privacy notice is needed yet: the site sets no cookies, Vercel
+  Analytics is cookieless, and Cal.com loads only on click. Revisit if a
+  contact form, newsletter or other tracking is added.
+
+**Watch for duplicate projects**: the same auto-import created a second,
+auto-suffixed project (`yoga-with-aoife-website-6ii7`) off the same repo
+when `dev` was pushed shortly after. Vercel project deletion needs
+dashboard confirmation (no non-interactive API path), so if you ever see
+more than one Vercel project tracking this repo, that's why — check
+before assuming a second one means something changed.
 
 Vercel only handles *deployment* (auto-build/publish on push to `main`) —
 it doesn't run lint or tests as a gate. That's what the GitHub Actions
@@ -292,46 +453,73 @@ plain-HTML/no-framework integration (a fixed same-origin route Vercel
 serves once the feature is enabled in the project dashboard), keeping the
 zero-build-step setup intact. Both routes only resolve on Vercel's own
 infra, so `tests/site.spec.js` stubs them to avoid 404 noise elsewhere.
-Enabling them in the Vercel dashboard is Aaron's job (see the reminder
-below).
 
-## Languages (French planned, built later)
+Enabling them is Aaron's job: both `vercel project web-analytics` and
+`vercel project speed-insights` require interactive CLI confirmation with
+no skip flag, and there's no non-interactive MCP/API path either — enabling
+Speed Insights specifically also upgrades the project to Speed Insights
+Plus (a paid tier change), so this stays a dashboard action, not something
+done on Aaron's behalf.
 
-Aoife's own canvas copy says she teaches in English but also speaks French
-and can support students in French — so, unlike the dietitian site, French
-is core to this offering, not a "nice to have". Even so, **don't build the
-French page yet** — it gets built once the English copy is close to final,
-so a design/content change isn't made twice. Keep the English page
-French-ready in the meantime, same approach as the dietitian site:
+## Languages (English and French, built 2026-11-13)
 
-**Decided approach**:
-- A separate static page, `fr/index.html`, sharing `css/`, `js/`, and
-  `assets/` with the English `index.html` at `/`. `lang="fr"` on its
-  `<html>`.
-- A plain-link "EN / FR" switcher in the header (no JS).
-- `hreflang` alternate links on both pages (`en`, `fr`, `x-default` → `/`).
+Aoife teaches in English but also speaks French and supports students in
+French, so French is core to this offering. Aaron asked for the French
+version on 2026-11-13, ahead of final English copy (an earlier note here
+said to wait; that's superseded). The dietitian site planned the same
+approach but put its French page on hold, so this site is the first to
+build it.
+
+**How it's built** (the plan agreed for both sites):
+- `fr/index.html` is a full copy of `index.html` with the visible text
+  translated, `lang="fr"`, and asset paths one folder up (`../css/`,
+  `../js/`, `../assets/`). It shares the same CSS, JS and images.
+- **Language switcher:** plain "EN / FR" links (`.lang-switch`) in the
+  top-right corner of the vermilion header, with no JS. The current
+  language has `aria-current="page"` and is bold and underlined. Each link
+  has `lang`/`hreflang`, plus visually hidden text ("– English" /
+  "– Français") so screen readers announce the language, not just "EN".
+- `hreflang` alternates in both heads: `en` → `/`, `fr` → `/fr/`,
+  `x-default` → `/`. **They're relative until there's a domain; make them
+  absolute at launch** (Google wants full URLs).
+- `hreflang="fr"` (all French speakers), not `fr-CH`. The copy has no
+  Swiss-specific wording, and Geneva readers are covered by `fr`. Revisit
+  only if Aoife wants Swiss conventions (e.g. "septante").
 - No automatic redirect by browser language.
 - Rejected: a JS translation toggle (the French text wouldn't be in the
-  HTML, and most crawlers — nearly all AI crawlers — don't run JS); a
-  static site generator (breaks the no-build-step setup; revisit only if
-  the site grows to several pages); auto-translate widgets (quality risk,
-  and they send visitor data to third parties).
+  HTML, and most crawlers, including nearly all AI crawlers, don't run
+  JS); a static site generator (breaks the no-build-step setup; revisit
+  only if the site grows to several pages); auto-translate widgets
+  (quality risk, and they send visitor data to third parties).
 
-**Until then, keep the English page French-ready:**
-- All user-facing text lives in the HTML — never inside images, SVGs, or
-  JS strings.
-- Leave room in the header for the switcher.
-- No fixed-width buttons or tight text containers — French typically runs
-  15–20% longer.
+**Keeping the two in step — every content or markup change goes in both
+files, in the same branch.** The parity test compares the two pages'
+element ids, link targets (ignoring the mailto subject), images, reveal
+elements, class cards and heading structure, and fails if they drift. All
+the other per-page tests run on both pages.
 
-**When it's built:** a parity test so both pages keep the same section
-IDs, links, and structure; run the 375px overflow test on both pages; the
-`pre-launch:` noindex applies to `/fr/` too until launch; real French copy
-translated or reviewed by a fluent speaker — Aoife herself speaks French,
-so she's a natural reviewer, but confirm with her directly rather than
-assuming. Still to decide with the user: which French audience (the canvas
-says "Geneva", so likely Swiss French), which sets the `hreflang` code and
-some word choices.
+**Text that JS shows lives in the HTML too.** The booking calendar's
+loading message, frame title and "open in a new tab" link come from data
+attributes on `[data-booking]` (`data-loading-text`, `data-frame-title`,
+`data-newtab-text`), so each page carries its own language. Never put
+visible text in `main.js`.
+
+**The French copy is Claude's translation and still needs Aoife's
+review** before launch (she's fluent). Translation choices worth her
+checking: the tagline "Cours de yoga en anglais à Genève" (keeps the point
+that classes are taught in English); the nav "Planning" for Timetable;
+"Rejoindre un cours" for "Join a class"; the mailto subject "Demande de
+renseignements – Yoga with Aoife"; and the footer "Diététicienne pour
+enfants et adultes". "Yoga with Aoife" stays in English as the brand name.
+French punctuation uses a narrow no-break space before `?` and `:`.
+
+**Not translated (outside our control):** the Cal.com booking page inside
+the frame follows Cal.com's own language settings, and the footer link
+goes to the dietitian site, which is English-only for now.
+
+**Still French-ready rules for new copy:** all visible text in the HTML
+(never in images, SVGs or JS strings), and no fixed-width buttons or tight
+text containers, since French runs 15–20% longer.
 
 ## Search and AI discoverability
 
@@ -384,8 +572,8 @@ merge to `main` must ship a new version.
 
 ## Testing & CI
 
-- `npm run lint` — HTML validation (`html-validate`, config in
-  `.htmlvalidate.json`).
+- `npm run lint` — HTML validation of both pages (`html-validate`, config
+  in `.htmlvalidate.json`).
 - `npm test` — Playwright smoke tests (`tests/site.spec.js`): no console
   errors, every section present, in-page links resolve, scroll-reveal
   fires, reduced motion shows content, no horizontal overflow at 375px,
@@ -409,10 +597,8 @@ merge to `main` must ship a new version.
    until launch.
 2. **Branch protection** on `main` once it exists remotely (PR required,
    no admin bypass).
-3. **Vercel**: import the repo (Framework "Other", no build command,
-   production branch `main`), then enable Web Analytics and Speed
-   Insights.
-4. **Hero photo** — download Aoife's seated-twist photo from her design
-   canvas (this tooling can't read it programmatically — see Content
-   policy above) and hand it over so it can replace the hero's
-   `.img-slot` placeholder.
+3. **Vercel**: repo is already imported (auto-connected by Vercel's GitHub
+   app). Delete the duplicate project `yoga-with-aoife-website-6ii7`
+   (dashboard confirmation required — link given when this was found,
+   2026-11-04), then enable Web Analytics and Speed Insights on
+   `yoga-with-aoife-website` (also dashboard-only, see Deployment above).
