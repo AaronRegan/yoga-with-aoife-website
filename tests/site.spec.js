@@ -222,10 +222,31 @@ for (const P of PAGES) {
       await expect.poll(() => calRequests.length).toBeGreaterThan(0);
     });
 
-    // Pre-launch only: delete or invert this check as part of the v1.0.0 launch.
-    test('pre-launch: page is noindex', async ({ page }) => {
+    test('launch: indexable, with canonical, link previews and structured data', async ({ page, request }) => {
       await page.goto(P.path);
-      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+      const url = `https://yoga.aoifeoneill.ch${P.path}`;
+      // No noindex any more: search engines and AI crawlers may list the page.
+      await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', url);
+      await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', url);
+      await expect(page.locator('meta[name="description"]')).not.toHaveAttribute('content', /coming soon|bientôt/i);
+      await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', /Yoga with Aoife/);
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://yoga.aoifeoneill.ch/assets/images/aoife-hero.jpg');
+      // The preview image must exist at the path the absolute URL points to.
+      expect((await request.get('/assets/images/aoife-hero.jpg')).ok()).toBe(true);
+
+      const ld = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent());
+      const person = ld['@graph'].find((n) => n['@type'] === 'Person');
+      const service = ld['@graph'].find((n) => n['@type'] === 'Service');
+      expect(person.name).toBe('Aoife O’Neill');
+      // The cross-link to the dietitian site, per the plan for the two sites.
+      expect(person.sameAs).toContain('https://www.aoifeoneill.ch/');
+      expect(service.provider['@id']).toBe(person['@id']);
+      expect(service.url).toBe(url);
+      // Structured data must not add details the site doesn't publish.
+      expect(JSON.stringify(ld)).not.toMatch(/telephone|tel:|address|price/i);
+      // No placeholder text left on the page.
+      await expect(page.locator('body')).not.toContainText(/placeholder|provisoire|\[[A-Z]/i);
     });
 
     test('fonts are self-hosted, never fetched from Google', async ({ page }) => {
@@ -286,7 +307,9 @@ for (const P of PAGES) {
       const alternates = await page.$$eval('link[rel="alternate"][hreflang]', (ls) =>
         ls.map((l) => `${l.getAttribute('hreflang')} ${l.getAttribute('href')}`)
       );
-      expect(alternates).toEqual(['en /', 'fr /fr/', 'x-default /']);
+      // Full URLs, as search engines expect.
+      const D = 'https://yoga.aoifeoneill.ch';
+      expect(alternates).toEqual([`en ${D}/`, `fr ${D}/fr/`, `x-default ${D}/`]);
     });
   });
 }
@@ -324,16 +347,18 @@ test('parity: English and French pages have the same structure and links', async
   expect(fr).toEqual(en);
 });
 
-test('pre-launch: AI crawlers are blocked in robots.txt', async ({ request }) => {
+test('launch: robots.txt allows everyone and points at a sitemap of both pages', async ({ request }) => {
   const robots = await (await request.get('/robots.txt')).text();
-  const groups = robots.split(/\n\s*\n/);
-  const aiGroup = groups.find((g) => /User-agent: GPTBot/.test(g));
-  const catchAll = groups.find((g) => /User-agent: \*/.test(g));
+  expect(robots).not.toMatch(/^Disallow: \/$/m);
+  expect(robots).not.toMatch(/GPTBot|ClaudeBot/);
+  expect(robots).toMatch(/^Sitemap: https:\/\/yoga\.aoifeoneill\.ch\/sitemap\.xml$/m);
 
-  expect(aiGroup).toMatch(/User-agent: ClaudeBot/);
-  expect(aiGroup).toMatch(/^Disallow: \/$/m);
-  // Search engines must still be able to fetch the page to see the noindex.
-  expect(catchAll).not.toMatch(/^Disallow: \/$/m);
+  const sitemap = await request.get('/sitemap.xml');
+  expect(sitemap.ok()).toBe(true);
+  const xml = await sitemap.text();
+  expect(xml).toContain('<loc>https://yoga.aoifeoneill.ch/</loc>');
+  expect(xml).toContain('<loc>https://yoga.aoifeoneill.ch/fr/</loc>');
+  expect(xml).toContain('hreflang="fr" href="https://yoga.aoifeoneill.ch/fr/"');
 });
 
 // vercel.json sets these headers on Vercel; the local server doesn't, so the
@@ -381,7 +406,7 @@ test('hardening: project files are excluded from the deployment', async () => {
     expect(ignored).toContain(p);
   }
   // The site's own files must never be ignored.
-  for (const p of ['index.html', 'fr', '404.html', 'css', 'js', 'assets', 'robots.txt']) {
+  for (const p of ['index.html', 'fr', '404.html', 'css', 'js', 'assets', 'robots.txt', 'sitemap.xml']) {
     expect(ignored).not.toContain(p);
   }
 });
